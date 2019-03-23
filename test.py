@@ -35,5 +35,9 @@ blockchain.mine()
 
 print(blockchain)
 print("Unconfirmed transactions (" + str(len(blockchain.unconfirmed_transactions)) + "): " + str(blockchain.unconfirmed_transactions))
+
+#blockchain.chain[2].previous_hash = "holamariposa"
+check = blockchain.is_valid_chain(blockchain.chain)
+print(check)
 # print(blockchain)
 # print("Unconfirmed transactions (" + str(len(blockchain.unconfirmed_transactions)) + "): " + str(blockchain.unconfirmed_transactions))

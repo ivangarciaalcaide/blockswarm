@@ -106,7 +106,7 @@ class Blockchain:
 
         return result
 
-    def is_valid_block(self, block):
+    def is_valid_block(self, block, chain=None):
         """
         Checks if the block is a valid one.
 
@@ -116,13 +116,21 @@ class Blockchain:
             3. Its hash must end with at least L{pow_difficulty} numbers of '0's
             4. Its hash must be the same than calculated hash.
 
-        @param block: Block to be checked
+        @param chain: Chain where the block is. If empty, it takes its own chain.
+        @param block: Block to be checked.
         @return: False if not valid. True, otherwise.
         """
-        if self.last_block.hash != block.previous_hash:
+        if chain is None:
+            chain = []
+        if not chain:
+            chain = self.chain
+
+        previous_block = chain[block.index - 1]
+
+        if previous_block.hash != block.previous_hash:
             return False
 
-        if self.last_block.index != block.index - 1:
+        if previous_block.index != block.index - 1:
             return False
 
         if not block.hash.endswith('0' * self.pow_difficulty):
@@ -134,7 +142,19 @@ class Blockchain:
         return True
 
     def is_valid_chain(self, chain):
-        pass
+        """
+        It checks if every block in the chain L{is_valid_block}.
+
+        @param chain: The chain to check
+        @return: True, if it is valid. False, otherwise.
+        """
+        x = 1
+        while x < len(chain) and self.is_valid_block(chain[x]):
+            x += 1
+        if x == len(chain) and self.is_valid_block(chain[x-1]):
+            return True
+        else:
+            return False
 
     def add_block(self, new_block):
         """
