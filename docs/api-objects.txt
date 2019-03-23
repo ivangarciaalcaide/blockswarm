@@ -18,6 +18,7 @@ bs_blockchain.Block.Block.get_string_to_hash	bs_blockchain.Block.Block-class.htm
 bs_blockchain.Block.Block.previous_hash	bs_blockchain.Block.Block-class.html#previous_hash
 bs_blockchain.Block.Block.__init__	bs_blockchain.Block.Block-class.html#__init__
 bs_blockchain.Blockchain.Blockchain	bs_blockchain.Blockchain.Blockchain-class.html
+bs_blockchain.Blockchain.Blockchain.is_valid_chain	bs_blockchain.Blockchain.Blockchain-class.html#is_valid_chain
 bs_blockchain.Blockchain.Blockchain.last_block	bs_blockchain.Blockchain.Blockchain-class.html#last_block
 bs_blockchain.Blockchain.Blockchain.chain	bs_blockchain.Blockchain.Blockchain-class.html#chain
 bs_blockchain.Blockchain.Blockchain.pow_difficulty	bs_blockchain.Blockchain.Blockchain-class.html#pow_difficulty
@@ -32,6 +33,7 @@ bs_blockchain.Blockchain.Blockchain.select_transactions_to_mine	bs_blockchain.Bl
 bs_blockchain.Blockchain.Blockchain.__init__	bs_blockchain.Blockchain.Blockchain-class.html#__init__
 bs_blockchain.Blockchain.Blockchain.proof_of_work	bs_blockchain.Blockchain.Blockchain-class.html#proof_of_work
 bs_blockchain.Blockchain.MyBlockChain	bs_blockchain.Blockchain.MyBlockChain-class.html
+bs_blockchain.Blockchain.Blockchain.is_valid_chain	bs_blockchain.Blockchain.Blockchain-class.html#is_valid_chain
 bs_blockchain.Blockchain.Blockchain.last_block	bs_blockchain.Blockchain.Blockchain-class.html#last_block
 bs_blockchain.Blockchain.Blockchain.chain	bs_blockchain.Blockchain.Blockchain-class.html#chain
 bs_blockchain.Blockchain.Blockchain.pow_difficulty	bs_blockchain.Blockchain.Blockchain-class.html#pow_difficulty

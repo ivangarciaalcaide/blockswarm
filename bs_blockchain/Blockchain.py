@@ -10,7 +10,7 @@ class Blockchain:
     def __init__(self):
         self.unconfirmed_transactions = []  #: Set of transactions wating to be mined.
         self.chain = []  #: List og blocks that conforms the block chain
-        self.pow_difficulty = 4  #: Difficulty of PoW
+        self.pow_difficulty = 3  #: Difficulty of PoW
         self.create_genesis_block()
 
     def create_genesis_block(self):
@@ -48,8 +48,6 @@ class Blockchain:
             current_hash = block.calculate_hash()
 
         block.hash = current_hash
-
-    # def is_valid_proof(self, block):
 
     def add_new_transaction(self, transaction):
         """
@@ -134,6 +132,9 @@ class Blockchain:
             return False
 
         return True
+
+    def is_valid_chain(self, chain):
+        pass
 
     def add_block(self, new_block):
         """
