@@ -8,4 +8,6 @@ Main goal is to have a core that guides future developments and tests. To achiev
 
 This diagram represent the first approach to the core architecture. From here, refactoring is a must to reach an scalable and maintainable system.
 
-![bs_blockswarm_class_diagram](resources/BS_Blockchain.svg)  
+![bs_blockswarm_class_diagram](resources/BS_Blockchain.svg) 
+
+&copy; 2019 MIT-Spain ETSISI Group
