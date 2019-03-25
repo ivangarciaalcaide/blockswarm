@@ -150,9 +150,9 @@ class Blockchain:
         @return: True, if it is valid. False, otherwise.
         """
         x = 1
-        while x < len(chain) and self.is_valid_block(chain[x]):
+        while x < len(chain) and self.is_valid_block(chain[x], chain):
             x += 1
-        if x == len(chain) and self.is_valid_block(chain[x-1]):
+        if x == len(chain) and self.is_valid_block(chain[x-1], chain):
             return True
         else:
             return False
@@ -171,21 +171,37 @@ class Blockchain:
             return False
 
     def chain_to_file(self, filename):
+        """
+        Saves the current chain into a text file.
+
+        @param filename: Desired name for the file. (Path is relative to working dir)
+        """
         chain_txt = self.__str__()
         f = open(filename, "w")
         f.write(chain_txt)
         f.close()
 
     def chain_from_file(self, filename):
+        """
+        Reads a text file that contains a chain and store it as its chain if it is valid.
+
+        @param filename: Name of the file wher the chain is stored. (Path is relative to working dir)
+        """
         f = open(filename, "r")
         chain_txt = f.read()
         chain_aux = json.loads(chain_txt)
         blocks = chain_aux['chain']
-        self.chain = []
+        new_chain = []
         for x in range(0, len(blocks)):
-            self.chain.append(Block(0, [], 0, '0'))
+            new_chain.append(Block(0, [], 0, '0'))
             for key in blocks[x]:
-                setattr(self.chain[x], key, blocks[x][key])
+                setattr(new_chain[x], key, blocks[x][key])
+
+        if self.is_valid_chain(new_chain):
+            self.chain = new_chain
+        else:
+            return False
+
         f.close()
 
     @property
