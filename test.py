@@ -23,25 +23,27 @@ print("-----")
 # blockchain.add_new_transaction(tx4)
 # blockchain.add_new_transaction(tx5)
 # blockchain.mine()
+for x in range(1000000):
+    if x % 50000 == 0:
+        print(str(x))
+    tx6 = Transaction('{"increase": "combine","summer": -779209931}')
+    tx7 = Transaction('{"ourselves":"wait","stranger":1805843303,"than":"still","certain":false,"entire":"dirt"}')
+    blockchain.add_new_transaction(tx6)
+    blockchain.add_new_transaction(tx7)
+    blockchain.mine()
 
-tx6 = Transaction('{"increase": "combine","summer": -779209931}')
-tx7 = Transaction('{"ourselves":"wait","stranger":1805843303,"than":"still","certain":false,"entire":"dirt"}')
-blockchain.add_new_transaction(tx6)
-blockchain.add_new_transaction(tx7)
-blockchain.mine()
+    tx8 = Transaction('[{"forty":true,"physical":false},-1952659469.9578228]')
+    blockchain.add_new_transaction(tx8)
+    blockchain.mine()
 
-tx8 = Transaction('[{"forty":true,"physical":false},-1952659469.9578228]')
-blockchain.add_new_transaction(tx8)
-blockchain.mine()
+    tx9 = Transaction('{"important":"enjoy","smell":[false,"difficult"]}')
+    blockchain.add_new_transaction(tx9)
+    blockchain.mine()
 
-tx9 = Transaction('{"important":"enjoy","smell":[false,"difficult"]}')
-blockchain.add_new_transaction(tx9)
-blockchain.mine()
-
-chain_id = blockchain.chain
+# chain_id = blockchain.chain
 print("-------------------------------------------")
 print("Current blockchain from mining")
-print(blockchain)
+#print(blockchain)
 print("Is a valid chain? : " + str(blockchain.is_valid_chain(blockchain.chain)))
 print("-------------------------------------------")
 print("Saving chain to file...")
@@ -55,7 +57,7 @@ blockchain.mine()
 print("Transaction added.")
 print("-------------------------------------------")
 print("Current blockchain from mining")
-print(blockchain)
+#print(blockchain)
 print("Is valid chain? : " + str(blockchain.is_valid_chain(blockchain.chain)))
 print("-------------------------------------------")
 print("Updating blockchain from file.")
@@ -67,14 +69,12 @@ print(blockchain)
 print("Is a valid chain? : " + str(blockchain.is_valid_chain(blockchain.chain)))
 print("-------------------------------------------")
 
-print("Previous chain: " + str(chain_id))
-print("Current chain : " + str(blockchain.chain))
+#print("Previous chain: " + str(chain_id))
+#print("Current chain : " + str(blockchain.chain))
 
-test_txt = " Hola012"
-if test_txt.endswith('0' * 0):
-    print("0*0")
-else:
-    print("Ni idea")
+print("Current chain length: " + str(len(blockchain.chain)))
+
+print("ttt: " + __name__)
 # print("Unconfirmed transactions (" + str(len(blockchain.unconfirmed_transactions)) + "): " + str(blockchain.unconfirmed_transactions))
 
 #blockchain.chain[2].previous_hash = "holamariposa"

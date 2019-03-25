@@ -1,6 +1,7 @@
 import json
 import time
 from abc import abstractmethod
+import zlib
 
 from bs_blockchain.Block import Block
 
@@ -10,7 +11,7 @@ class Blockchain:
     def __init__(self):
         self.unconfirmed_transactions = []  #: Set of transactions wating to be mined.
         self.chain = []  #: List og blocks that conforms the block chain
-        self.pow_difficulty = 2  #: Difficulty of PoW
+        self.pow_difficulty = 0  #: Difficulty of PoW
         self.create_genesis_block()
 
     def create_genesis_block(self):
@@ -176,7 +177,8 @@ class Blockchain:
         @param filename: Desired name for the file. (Path is relative to working dir)
         """
         chain_txt = self.__str__()
-        f = open(filename, "w")
+        chain_txt = zlib.compress(chain_txt.encode('utf-8'))
+        f = open(filename, "wb")
         f.write(chain_txt)
         f.close()
 
@@ -186,8 +188,10 @@ class Blockchain:
 
         @param filename: Name of the file wher the chain is stored. (Path is relative to working dir)
         """
-        f = open(filename, "r")
+        f = open(filename, "rb")
         chain_txt = f.read()
+        f.close()
+        chain_txt = zlib.decompress(chain_txt)
         chain_aux = json.loads(chain_txt)
         blocks = chain_aux['chain']
         new_chain = []
@@ -202,7 +206,7 @@ class Blockchain:
         else:
             return False
 
-        f.close()
+
 
     @property
     def last_block(self):
