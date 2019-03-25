@@ -133,6 +133,7 @@ class Blockchain:
         if previous_block.index != block.index - 1:
             return False
 
+        # TODO: Check what if difficulty is 0
         if not block.hash.endswith('0' * self.pow_difficulty):
             return False
 
