@@ -169,6 +169,24 @@ class Blockchain:
         else:
             return False
 
+    def chain_to_file(self, filename):
+        chain_txt = self.__str__()
+        f = open(filename, "w")
+        f.write(chain_txt)
+        f.close()
+
+    def chain_from_file(self, filename):
+        f = open(filename, "r")
+        chain_txt = f.read()
+        chain_aux = json.loads(chain_txt)
+        blocks = chain_aux['chain']
+        self.chain = []
+        for x in range(0, len(blocks)):
+            self.chain.append(Block(0, [], 0, '0'))
+            for key in blocks[x]:
+                setattr(self.chain[x], key, blocks[x][key])
+        f.close()
+
     @property
     def last_block(self):
         """
@@ -177,10 +195,13 @@ class Blockchain:
         return self.chain[-1]
 
     def __str__(self):
-        result = ""
+        result = '{"chain" : ['
         for block in self.chain:
-            result = result + block.__str__() + "\n"
-        return result
+            result = result + block.__str__() + ",\n"
+        result = result[0:-2]
+        result += "]}"
+        mi_json = json.loads(result)
+        return json.dumps(mi_json, indent=4)
 
 
 class MyBlockChain(Blockchain):
