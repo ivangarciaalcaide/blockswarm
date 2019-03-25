@@ -59,7 +59,7 @@ print(blockchain)
 print("Is valid chain? : " + str(blockchain.is_valid_chain(blockchain.chain)))
 print("-------------------------------------------")
 print("Updating blockchain from file.")
-blockchain.chain_from_file("chain_fake.txt")
+blockchain.chain_from_file("chain.txt")
 print("Updated.")
 print("-------------------------------------------")
 print("Current blockchain from mining. Last transaction should not appear.")
@@ -69,6 +69,12 @@ print("-------------------------------------------")
 
 print("Previous chain: " + str(chain_id))
 print("Current chain : " + str(blockchain.chain))
+
+test_txt = " Hola012"
+if test_txt.endswith('0' * 0):
+    print("0*0")
+else:
+    print("Ni idea")
 # print("Unconfirmed transactions (" + str(len(blockchain.unconfirmed_transactions)) + "): " + str(blockchain.unconfirmed_transactions))
 
 #blockchain.chain[2].previous_hash = "holamariposa"
