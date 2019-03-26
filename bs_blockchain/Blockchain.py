@@ -1,9 +1,10 @@
+from bs_blockchain.Block import Block
+from abc import abstractmethod
+import binascii
 import json
 import time
-from abc import abstractmethod
-import zlib
-
-from bs_blockchain.Block import Block
+import gzip
+import _pickle as pickle
 
 
 class Blockchain:
@@ -170,43 +171,58 @@ class Blockchain:
         else:
             return False
 
-    def chain_to_file(self, filename):
+    def chain_to_file(self, filename, compress_level=0):
         """
-        Saves the current chain into a text file.
+        Saves the current chain into a file.
 
+        Depending on B{compress_level} it behaves in two different ways. B{compress_level} range is
+        from 0 to 9. By default, B{compress_level} is set to 0:
+            - "B{0}": No compress and JSON text file is generated I{UTF-8} encoded.
+            - "B{1 - 9}": Compressed B{gzip} file is generated. B{1} is fastest and produces the least compression.
+                            B{9} is slowest and produces the most compression. File will not be human readable.
+
+        Working with text files is much harder and takes much longer than with binary (compressed) files.
+
+        @type filename: String
         @param filename: Desired name for the file. (Path is relative to working dir)
+        @type compress_level: int
+        @param compress_level: Desired compress level or, 0, produces a JSON text file (UTF-8).
         """
-        chain_txt = self.__str__()
-        chain_txt = zlib.compress(chain_txt.encode('utf-8'))
-        f = open(filename, "wb")
-        f.write(chain_txt)
-        f.close()
+        if compress_level in range(1, 10):
+            with gzip.open(filename, "wb", compresslevel=compress_level) as gzip_file:
+                pickle.dump(self.chain, gzip_file, protocol=-1)
+        elif compress_level == 0:
+            with open(filename, mode="w", encoding='utf-8') as json_file:
+                json_file.write(self.__str__())
+        else:
+            return False
 
     def chain_from_file(self, filename):
         """
-        Reads a text file that contains a chain and store it as its chain if it is valid.
+        Reads a file that contains a chain and store it as its chain if it is valid.
 
         @param filename: Name of the file wher the chain is stored. (Path is relative to working dir)
         """
-        f = open(filename, "rb")
-        chain_txt = f.read()
-        f.close()
-        chain_txt = zlib.decompress(chain_txt)
-        chain_aux = json.loads(chain_txt)
-        blocks = chain_aux['chain']
-        new_chain = []
-        for x in range(0, len(blocks)):
-            new_chain.append(Block(0, [], 0, '0'))
-            for key in blocks[x]:
-                setattr(new_chain[x], key, blocks[x][key])
+        with open(filename, "rb") as checking_file:
+            is_gzip_file = binascii.hexlify(checking_file.read(2)) == b'1f8b'
+
+        if is_gzip_file:
+            with gzip.open(filename, "rb") as gzip_file:
+                new_chain = pickle.load(gzip_file)
+        else:
+            with open(filename, "r") as json_file:
+                blocks = json.load(json_file)['chain']
+                new_chain = []
+                for x in range(0, len(blocks)):
+                    new_chain.append(Block(0, [], 0, '0'))
+                    for key in blocks[x]:
+                        setattr(new_chain[x], key, blocks[x][key])
 
         if self.is_valid_chain(new_chain):
             self.chain = new_chain
             return True
         else:
             return False
-
-
 
     @property
     def last_block(self):

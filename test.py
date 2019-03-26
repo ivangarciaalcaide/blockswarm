@@ -23,8 +23,8 @@ print("-----")
 # blockchain.add_new_transaction(tx4)
 # blockchain.add_new_transaction(tx5)
 # blockchain.mine()
-for x in range(1000000):
-    if x % 50000 == 0:
+for x in range(2000):
+    if x % 100 == 0:
         print(str(x))
     tx6 = Transaction('{"increase": "combine","summer": -779209931}')
     tx7 = Transaction('{"ourselves":"wait","stranger":1805843303,"than":"still","certain":false,"entire":"dirt"}')
@@ -47,7 +47,9 @@ print("Current blockchain from mining")
 print("Is a valid chain? : " + str(blockchain.is_valid_chain(blockchain.chain)))
 print("-------------------------------------------")
 print("Saving chain to file...")
-blockchain.chain_to_file("chain.txt")
+blockchain.chain_to_file("chain_1.txt.gz", 9)
+blockchain.chain_to_file("chain_2.txt.gz", 1)
+blockchain.chain_to_file("chain_3.txt", 0)
 print("File saved.")
 print("-------------------------------------------")
 tx10 = '{"forward":[-1907593984.0836291,false],"quietly":"certain"}'
@@ -61,11 +63,11 @@ print("Current blockchain from mining")
 print("Is valid chain? : " + str(blockchain.is_valid_chain(blockchain.chain)))
 print("-------------------------------------------")
 print("Updating blockchain from file.")
-blockchain.chain_from_file("chain.txt")
+blockchain.chain_from_file("chain_3.txt")
 print("Updated.")
 print("-------------------------------------------")
 print("Current blockchain from mining. Last transaction should not appear.")
-print(blockchain)
+print(blockchain.chain[90])
 print("Is a valid chain? : " + str(blockchain.is_valid_chain(blockchain.chain)))
 print("-------------------------------------------")
 
@@ -74,7 +76,6 @@ print("-------------------------------------------")
 
 print("Current chain length: " + str(len(blockchain.chain)))
 
-print("ttt: " + __name__)
 # print("Unconfirmed transactions (" + str(len(blockchain.unconfirmed_transactions)) + "): " + str(blockchain.unconfirmed_transactions))
 
 #blockchain.chain[2].previous_hash = "holamariposa"

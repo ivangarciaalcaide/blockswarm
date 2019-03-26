@@ -30,7 +30,6 @@ class Block:
 
         @return: The string to be hashed.
         """
-
         my_json = json.loads(json.dumps(self.__dict__))
 
         if 'hash' in my_json:

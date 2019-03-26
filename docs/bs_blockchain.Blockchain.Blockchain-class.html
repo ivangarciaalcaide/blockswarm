@@ -57,13 +57,6 @@
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Blockchain</h1><p class="nomargin-top"><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain">source&nbsp;code</a></span></p>
-<dl><dt>Known Subclasses:</dt>
-<dd>
-      <ul class="subclass-list">
-<li><a href="bs_blockchain.Blockchain.MyBlockChain-class.html">MyBlockChain</a></li>  </ul>
-</dd></dl>
-
-<hr />
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -252,8 +245,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#chain_to_file" class="summary-sig-name">chain_to_file</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">filename</span>)</span><br />
-      Saves the current chain into a text file.</td>
+        <span class="summary-sig-arg">filename</span>,
+        <span class="summary-sig-arg">compress_level</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Saves the current chain into a file.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.chain_to_file">source&nbsp;code</a></span>
             
@@ -271,10 +265,27 @@
         <tr>
           <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#chain_from_file" class="summary-sig-name">chain_from_file</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">filename</span>)</span><br />
-      Reads a text file that contains a chain and store it as its chain if 
-      it is valid.</td>
+      Reads a file that contains a chain and store it as its chain if it is
+      valid.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.chain_from_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#last_block" class="summary-sig-name">last_block</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Reference to the last block of the chain.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.last_block">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -338,32 +349,6 @@
     </td><td class="summary">
         <a name="pow_difficulty"></a><span class="summary-name">pow_difficulty</span><br />
       Difficulty of PoW
-    </td>
-  </tr>
-</table>
-<!-- ==================== PROPERTIES ==================== -->
-<a name="section-Properties"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td colspan="2" class="table-header">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-      <tr valign="top">
-        <td align="left"><span class="table-header">Properties</span></td>
-        <td align="right" valign="top"
-         ><span class="options">[<a href="#section-Properties"
-         class="privatelink" onclick="toggle_private();"
-         >hide private</a>]</span></td>
-      </tr>
-    </table>
-  </td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="bs_blockchain.Blockchain.Blockchain-class.html#last_block" class="summary-name">last_block</a><br />
-      Reference to the last block of the chain.
     </td>
   </tr>
 </table>
@@ -434,9 +419,8 @@
   
   <p>Proof of work implementation.</p>
   <p>It takes a block and sets its nonce to 0. Then, calculates its hash 
-  from <a href="bs_blockchain.Block.Block-class.html#get_string_to_hash" 
-  class="link">Block.get_string_to_hash(self)</a>. This hash must end with,
-  at least, as many '0's characters as indicated in <a 
+  from <code class="link">Block.get_string_to_hash(self)</code>. This hash 
+  must end with, at least, as many '0's characters as indicated in <a 
   href="bs_blockchain.Blockchain.Blockchain-class.html#pow_difficulty" 
   class="link">pow_difficulty</a> to success. I hash doesn't accomplish 
   PoW, nonce value is incremented by 1 and it starts over.</p>
@@ -666,18 +650,37 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">chain_to_file</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">filename</span>)</span>
+        <span class="sig-arg">filename</span>,
+        <span class="sig-arg">compress_level</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.chain_to_file">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Saves the current chain into a text file.</p>
+  <p>Saves the current chain into a file.</p>
+  <p>Depending on <b>compress_level</b> it behaves in two different ways. 
+  <b>compress_level</b> range is from 0 to 9. By default, 
+  <b>compress_level</b> is set to 0:</p>
+  <ul>
+    <li>
+      &quot;<b>0</b>&quot;: No compress and JSON text file is generated 
+      <i>UTF-8</i> encoded.
+    </li>
+    <li>
+      &quot;<b>1 - 9</b>&quot;: Compressed <b>gzip</b> file is generated. 
+      <b>1</b> is fastest and produces the least compression. <b>9</b> is 
+      slowest and produces the most compression. File will not be human 
+      readable.
+    </li>
+  </ul>
+  <p>Working with text files is much harder and takes much longer than with
+  binary (compressed) files.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>filename</code></strong> - Desired name for the file. (Path is relative to working dir)</li>
+        <li><strong class="pname"><code>filename</code></strong> (String) - Desired name for the file. (Path is relative to working dir)</li>
+        <li><strong class="pname"><code>compress_level</code></strong> (int) - Desired compress level or, 0, produces a JSON text file (UTF-8).</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -697,8 +700,8 @@
     </td>
   </tr></table>
   
-  <p>Reads a text file that contains a chain and store it as its chain if 
-  it is valid.</p>
+  <p>Reads a file that contains a chain and store it as its chain if it is 
+  valid.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -708,37 +711,26 @@
   </dl>
 </td></tr></table>
 </div>
-<br />
-<!-- ==================== PROPERTY DETAILS ==================== -->
-<a name="section-PropertyDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td colspan="2" class="table-header">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-      <tr valign="top">
-        <td align="left"><span class="table-header">Property Details</span></td>
-        <td align="right" valign="top"
-         ><span class="options">[<a href="#section-PropertyDetails"
-         class="privatelink" onclick="toggle_private();"
-         >hide private</a>]</span></td>
-      </tr>
-    </table>
-  </td>
-</tr>
-</table>
 <a name="last_block"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">last_block</h3>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">last_block</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.last_block">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
   <p>Reference to the last block of the chain.</p>
   <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig"><i>unreachable</i>.last_block(<span class="summary-sig-arg">self</span>)</span>
-        - Reference to the last block of the chain.
-    </dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@property</code></li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -769,7 +761,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 25 14:30:20 2019
+    Generated by Epydoc 3.0.1 on Tue Mar 26 12:37:12 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
