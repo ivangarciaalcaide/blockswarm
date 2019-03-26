@@ -1,3 +1,3 @@
 #!/bin/bash
 
-epydoc --html -v -o ./docs bs_blockchain
+epydoc --html -v -o ./docs sources/bs_blockchain
