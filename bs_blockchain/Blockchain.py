@@ -4,7 +4,7 @@ import binascii
 import json
 import time
 import gzip
-import _pickle as pickle
+import pickle
 
 
 class Blockchain:

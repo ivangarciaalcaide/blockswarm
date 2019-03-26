@@ -57,6 +57,13 @@
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Blockchain</h1><p class="nomargin-top"><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain">source&nbsp;code</a></span></p>
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="bs_blockchain.Blockchain.MyBlockChain-class.html">MyBlockChain</a></li>  </ul>
+</dd></dl>
+
+<hr />
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -282,23 +289,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#last_block" class="summary-sig-name">last_block</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Reference to the last block of the chain.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.last_block">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a name="__str__"></a><span class="summary-sig-name">__str__</span>(<span class="summary-sig-arg">self</span>)</span></td>
           <td align="right" valign="top">
             <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.__str__">source&nbsp;code</a></span>
@@ -349,6 +339,32 @@
     </td><td class="summary">
         <a name="pow_difficulty"></a><span class="summary-name">pow_difficulty</span><br />
       Difficulty of PoW
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="bs_blockchain.Blockchain.Blockchain-class.html#last_block" class="summary-name">last_block</a><br />
+      Reference to the last block of the chain.
     </td>
   </tr>
 </table>
@@ -419,8 +435,9 @@
   
   <p>Proof of work implementation.</p>
   <p>It takes a block and sets its nonce to 0. Then, calculates its hash 
-  from <code class="link">Block.get_string_to_hash(self)</code>. This hash 
-  must end with, at least, as many '0's characters as indicated in <a 
+  from <a href="bs_blockchain.Block.Block-class.html#get_string_to_hash" 
+  class="link">Block.get_string_to_hash(self)</a>. This hash must end with,
+  at least, as many '0's characters as indicated in <a 
   href="bs_blockchain.Blockchain.Blockchain-class.html#pow_difficulty" 
   class="link">pow_difficulty</a> to success. I hash doesn't accomplish 
   PoW, nonce value is incremented by 1 and it starts over.</p>
@@ -711,26 +728,37 @@
   </dl>
 </td></tr></table>
 </div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Property Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-PropertyDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
 <a name="last_block"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">last_block</span>(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.last_block">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
+  <h3 class="epydoc">last_block</h3>
   <p>Reference to the last block of the chain.</p>
   <dl class="fields">
-    <dt>Decorators:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code>@property</code></li>
-    </ul></dd>
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig"><i>unreachable</i>.last_block(<span class="summary-sig-arg">self</span>)</span>
+        - Reference to the last block of the chain.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -761,7 +789,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Mar 26 12:37:12 2019
+    Generated by Epydoc 3.0.1 on Tue Mar 26 13:39:15 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
