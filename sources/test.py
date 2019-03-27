@@ -1,11 +1,19 @@
-from bs_blockchain.Blockchain import MyBlockChain
+import sys
 from bs_blockchain.Transaction import Transaction
+import requests
+
 
 print("Testing...")
+print("----------")
 
-blockchain = MyBlockChain()
+tx6 = {"increase": "combine","summer": -779209931}
 
-print("-----")
+requests.post("http://barcena.etsisi.upm.es:10000/add_transaction",
+              json=tx6,
+              headers={'Content-type': 'application/json'})
+
+sys.exit()
+
 #tx1 = Transaction({"SALUDO": "Hola"})
 #tx2 = Transaction({"SALUDO": "Adios"})
 #tx3 = Transaction({"Nombre": "Pepe"})
@@ -23,6 +31,8 @@ print("-----")
 # blockchain.add_new_transaction(tx4)
 # blockchain.add_new_transaction(tx5)
 # blockchain.mine()
+
+
 for x in range(2000):
     if x % 100 == 0:
         print(str(x))
