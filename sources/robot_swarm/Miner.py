@@ -6,12 +6,16 @@ from bs_blockchain.Blockchain import Blockchain
 from bs_blockchain.Transaction import Transaction
 from flask import Flask, request
 import json
+import socket
+
+app = Flask(__name__)
 
 
 class Miner(Blockchain):
 
     def __init__(self):
         super().__init__()
+        self.peers = ()
 
     def select_transactions_to_mine(self):
         """
@@ -22,23 +26,33 @@ class Miner(Blockchain):
         return self.unconfirmed_transactions.copy()
 
 
+# @app.route('/add_transaction', methods=['POST'])
+# def add_transaction():
+#     tx = Transaction(json.dumps(request.get_json()))
+#     miner.add_new_transaction(tx)
+#     # tx1 = Transaction({"SALUDO": "Hola"})
+#     return "Success", 201
+
+
 miner = Miner()
-app = Flask(__name__)
 
 
-@app.route('/add_transaction', methods=['POST'])
-def add_transaction():
-    tx = Transaction(json.dumps(request.get_json()))
-    miner.add_new_transaction(tx)
-    # tx1 = Transaction({"SALUDO": "Hola"})
+@app.route('/test/<test>')
+def test(test):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip = s.getsockname()[0]
+    s.close()
+    return "TX:<br><br> " + test + "<br>" + str(miner.chain) + "<br>" + ip
+
+
+@app.route('/new_transaction', methods=['POST'])
+def new_transaction():
+    tx_data = request.get_json()
+    miner.add_new_transaction(tx_data)
+
     return "Success", 201
-
-
-@app.route('/test')
-def test():
-    return str(miner.unconfirmed_transactions)
 
 
 if __name__ == '__main__':
     app.run('0.0.0.0', 10000)
-
