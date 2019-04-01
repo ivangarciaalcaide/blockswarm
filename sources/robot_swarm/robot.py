@@ -92,30 +92,25 @@ class Robot:
         x0, y0 = self.pos_x, self.pos_y
         x1, y1 = self.to_x, self.to_y
 
-        dx = x1 - x0
-        dy = y1 - y0
+        xDist = abs(x1 - x0)
+        yDist = -abs(y1 - y0)
 
-        xsign = 1 if dx > 0 else -1
-        ysign = 1 if dy > 0 else -1
+        xStep = 1 if x0 < x1 else -1
+        yStep = 1 if y0 < y1 else -1
 
-        dx = abs(dx)
-        dy = abs(dy)
+        error = xDist + yDist
 
-        if dx > dy:
-            xx, xy, yx, yy = xsign, 0, 0, ysign
-        else:
-            dx, dy = dy, dx
-            xx, xy, yx, yy = 0, ysign, xsign, 0
+        points.append((x0, y0))
 
-        D = 2 * dy - dx
-        y = 0
+        while x0 != x1 or y0 != y1:
+            if 2 * error - yDist > xDist - 2 * error:
+                error += yDist
+                x0 += xStep
+            else:
+                error += xDist
+                y0 += yStep
 
-        for x in range(dx + 1):
-            points.append((x0 + x * xx + y * yx, y0 + x * xy + y * yy))
-            if D >= 0:
-                y += 1
-                D -= 2 * dx
-            D += 2 * dy
+            points.append((x0, y0))
 
         return points
 
@@ -123,20 +118,20 @@ class Robot:
         points = self.move_to_target_3(2)
         print(str(points))
 
-        plt.xlim(0, 10)
-        plt.ylim(0, 10)
+        plt.xlim(-20, 10)
+        plt.ylim(-20, 10)
         plt.scatter(*zip(*points))
         plt.plot(*zip(*points))
 
-        l1, l2 = [0, 8], [0, 4]
+        l1, l2 = [0, -16], [0, 3]
         plt.plot(l1, l2, marker='o')
         plt.show()
 
 robot = Robot(pos_x=0, pos_y=0)
-robot.set_target(8, 4)
+robot.set_target(-16, 3)
 print(str("(" + str(robot.pos_x) + ", " + str(robot.pos_y) + ")"), end=" ---> ")
 print(str("(" + str(robot.to_x) + ", " + str(robot.to_y) + ")"))
-robot.move_to_target(2)
+robot.testing(2)
 
 
 
