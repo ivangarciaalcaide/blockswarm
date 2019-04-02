@@ -1,16 +1,10 @@
 import sys
-from bs_blockchain.Transaction import Transaction
-import requests
 
+from robot_swarm.Miner import Miner
 
 print("Testing...")
 print("----------")
 
-tx6 = {"increase": "combine","summer": -779209931}
-
-requests.post("http://barcena.etsisi.upm.es:10000/add_transaction",
-              json=tx6,
-              headers={'Content-type': 'application/json'})
 
 sys.exit()
 
