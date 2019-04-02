@@ -1,7 +1,3 @@
-import sys
-
-sys.path.insert(0, '/home/ivan/Workspace/PyCharm/blockswarm/sources')
-
 from bs_blockchain.Blockchain import Blockchain
 from bs_blockchain.Transaction import Transaction
 from flask import Flask, request
@@ -26,14 +22,6 @@ class Miner(Blockchain):
         return self.unconfirmed_transactions.copy()
 
 
-# @app.route('/add_transaction', methods=['POST'])
-# def add_transaction():
-#     tx = Transaction(json.dumps(request.get_json()))
-#     miner.add_new_transaction(tx)
-#     # tx1 = Transaction({"SALUDO": "Hola"})
-#     return "Success", 201
-
-
 miner = Miner()
 
 
@@ -46,11 +34,10 @@ def test(test):
     return "TX:<br><br> " + test + "<br>" + str(miner.chain) + "<br>" + ip
 
 
-@app.route('/new_transaction', methods=['POST'])
-def new_transaction():
-    tx_data = request.get_json()
-    miner.add_new_transaction(tx_data)
-
+@app.route('/add_transaction', methods=['POST'])
+def add_transaction():
+    tx = Transaction(json.dumps(request.get_json()))
+    miner.add_new_transaction(tx)
     return "Success", 201
 
 
