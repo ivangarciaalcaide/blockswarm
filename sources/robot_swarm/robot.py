@@ -2,18 +2,37 @@ import matplotlib.pyplot as plt
 
 
 class Robot:
+    """
+    Simulates the behaviour of a robot that is able to know its position and move to a given target.
+    Movement is based on a 2D grid and the robot moves only to contiguous position (North, South, East, West)
+    without diagonals.
+
+    Robot is also able to communicate with other robots to coordinate movements and target positions through
+    its associated miner. It knows about its miner from its IP address and port.
+    """
 
     def __init__(self, miner_host="127.0.0.1", miner_port="10000", pos_x=0, pos_y=0):
-        Robot.miner_host = miner_host
-        Robot.miner_port = miner_port
-        self.position = [pos_x, pos_y]
-        self.target = [0, 0]
-        self.path = []
+        Robot.miner_host = miner_host   #: Associated miner IP.
+        Robot.miner_port = miner_port   #: Associated miner port.
+        self.position = [pos_x, pos_y]  #: Position of the robot in the grid.
+        self.target = [0, 0]            #: Position to reach.
+        self.path = []                  #: Path to follow from current position to reach target.
 
     def set_target(self, to_x, to_y):
+        """
+        Sets the target position.
+
+        @param to_x: X axis position to reach
+        @param to_y: Y axis position to reach
+        """
         self.target = [to_x, to_y]
 
     def set_path(self):
+        """
+        It calculates the path from the current position to reach target and stores it in L{self.path} attribute.
+        Path is an ordered list of cells the robot is going through. A cell is a two integers list where the first
+        one is the X position and the second one is Y position.
+        """
         x0, y0 = self.position[0], self.position[1]      # Initial point
         x1, y1 = self.target[0], self.target[1]          # Target point
 
@@ -25,7 +44,7 @@ class Robot:
 
         error = x_dist + y_dist
 
-        self.path.append((x0, y0))
+        self.path.append([x0, y0])
 
         while x0 != x1 or y0 != y1:
             if 2 * error - y_dist > x_dist - 2 * error:
@@ -35,7 +54,7 @@ class Robot:
                 error += x_dist
                 y0 += y_step
 
-            self.path.append((x0, y0))
+            self.path.append([x0, y0])
 
     def testing(self):
         print(self.path)

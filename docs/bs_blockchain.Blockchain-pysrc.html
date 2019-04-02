@@ -14,9 +14,6 @@
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
-  <!-- Home link -->
-      <th>&nbsp;&nbsp;&nbsp;<a
-        href="bs_blockchain-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -150,8 +147,9 @@ bs_blockchain.Transaction.Transaction.__str__" class="py-name" href="#" onclick=
 <a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
 <a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"><tt class="py-docstring">        @return: False, If block could not be mined. The mined block, otherwise.</tt> </tt>
 <a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">        <tt class="py-name">selected_transactions</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Method bs_blockchain.Blockchain.Blockchain.select_transactions_to_mine()=bs_blockchain.Blockchain.Blockchain-class.html#select_transactions_to_mine,Method bs_blockchain.Blockchain.MyBlockChain.select_transactions_to_mine()=bs_blockchain.Blockchain.MyBlockChain-class.html#select_transactions_to_mine"><a title="bs_blockchain.Blockchain.Blockchain.select_transactions_to_mine
-bs_blockchain.Blockchain.MyBlockChain.select_transactions_to_mine" class="py-name" href="#" onclick="return doclink('link-9', 'select_transactions_to_mine', 'link-9');">select_transactions_to_mine</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">        <tt class="py-name">selected_transactions</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Method bs_blockchain.Blockchain.Blockchain.select_transactions_to_mine()=bs_blockchain.Blockchain.Blockchain-class.html#select_transactions_to_mine,Method bs_blockchain.Blockchain.MyBlockChain.select_transactions_to_mine()=bs_blockchain.Blockchain.MyBlockChain-class.html#select_transactions_to_mine,Method robot_swarm.Miner.Miner.select_transactions_to_mine()=robot_swarm.Miner.Miner-class.html#select_transactions_to_mine"><a title="bs_blockchain.Blockchain.Blockchain.select_transactions_to_mine
+bs_blockchain.Blockchain.MyBlockChain.select_transactions_to_mine
+robot_swarm.Miner.Miner.select_transactions_to_mine" class="py-name" href="#" onclick="return doclink('link-9', 'select_transactions_to_mine', 'link-9');">select_transactions_to_mine</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
 <a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">selected_transactions</tt> <tt class="py-keyword">and</tt> <tt class="py-keyword">not</tt> <tt class="py-name">allow_empty_transactions</tt><tt class="py-op">:</tt> </tt>
 <a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
 <a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"> </tt>
@@ -314,10 +312,12 @@ bs_blockchain.Transaction.Transaction.__str__" class="py-name" href="#" onclick=
 <a name="L244"></a><tt class="py-lineno">244</tt> <a class="py-toggle" href="#" id="MyBlockChain-toggle" onclick="return toggle('MyBlockChain');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="bs_blockchain.Blockchain.MyBlockChain-class.html">MyBlockChain</a><tt class="py-op">(</tt><tt class="py-base-class">Blockchain</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="MyBlockChain-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="MyBlockChain-expanded"><a name="L245"></a><tt class="py-lineno">245</tt>  <tt class="py-line"> </tt>
 <a name="MyBlockChain.__init__"></a><div id="MyBlockChain.__init__-def"><a name="L246"></a><tt class="py-lineno">246</tt> <a class="py-toggle" href="#" id="MyBlockChain.__init__-toggle" onclick="return toggle('MyBlockChain.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="bs_blockchain.Blockchain.MyBlockChain-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="MyBlockChain.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MyBlockChain.__init__-expanded"><a name="L247"></a><tt class="py-lineno">247</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name" targets="Method bs_blockchain.Block.Block.__init__()=bs_blockchain.Block.Block-class.html#__init__,Method bs_blockchain.Blockchain.Blockchain.__init__()=bs_blockchain.Blockchain.Blockchain-class.html#__init__,Method bs_blockchain.Blockchain.MyBlockChain.__init__()=bs_blockchain.Blockchain.MyBlockChain-class.html#__init__,Method bs_blockchain.Transaction.Transaction.__init__()=bs_blockchain.Transaction.Transaction-class.html#__init__"><a title="bs_blockchain.Block.Block.__init__
+</div><div id="MyBlockChain.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MyBlockChain.__init__-expanded"><a name="L247"></a><tt class="py-lineno">247</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name" targets="Method bs_blockchain.Block.Block.__init__()=bs_blockchain.Block.Block-class.html#__init__,Method bs_blockchain.Blockchain.Blockchain.__init__()=bs_blockchain.Blockchain.Blockchain-class.html#__init__,Method bs_blockchain.Blockchain.MyBlockChain.__init__()=bs_blockchain.Blockchain.MyBlockChain-class.html#__init__,Method bs_blockchain.Transaction.Transaction.__init__()=bs_blockchain.Transaction.Transaction-class.html#__init__,Method robot_swarm.Miner.Miner.__init__()=robot_swarm.Miner.Miner-class.html#__init__,Method robot_swarm.robot.Robot.__init__()=robot_swarm.robot.Robot-class.html#__init__"><a title="bs_blockchain.Block.Block.__init__
 bs_blockchain.Blockchain.Blockchain.__init__
 bs_blockchain.Blockchain.MyBlockChain.__init__
-bs_blockchain.Transaction.Transaction.__init__" class="py-name" href="#" onclick="return doclink('link-25', '__init__', 'link-25');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+bs_blockchain.Transaction.Transaction.__init__
+robot_swarm.Miner.Miner.__init__
+robot_swarm.robot.Robot.__init__" class="py-name" href="#" onclick="return doclink('link-25', '__init__', 'link-25');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
 </div><a name="L248"></a><tt class="py-lineno">248</tt>  <tt class="py-line"> </tt>
 <a name="MyBlockChain.select_transactions_to_mine"></a><div id="MyBlockChain.select_transactions_to_mine-def"><a name="L249"></a><tt class="py-lineno">249</tt> <a class="py-toggle" href="#" id="MyBlockChain.select_transactions_to_mine-toggle" onclick="return toggle('MyBlockChain.select_transactions_to_mine');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="bs_blockchain.Blockchain.MyBlockChain-class.html#select_transactions_to_mine">select_transactions_to_mine</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="MyBlockChain.select_transactions_to_mine-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="MyBlockChain.select_transactions_to_mine-expanded"><a name="L250"></a><tt class="py-lineno">250</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
@@ -337,9 +337,6 @@ expandto(location.href);
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
-  <!-- Home link -->
-      <th>&nbsp;&nbsp;&nbsp;<a
-        href="bs_blockchain-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -359,7 +356,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Mar 26 13:43:48 2019
+    Generated by Epydoc 3.0.1 on Tue Apr  2 11:23:45 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
