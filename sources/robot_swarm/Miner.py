@@ -14,7 +14,7 @@ class Miner(Blockchain):
 
     def __init__(self):
         super().__init__()
-        self.peers = ()
+        self.peers = []     #: List of connected peers by connection address.
 
     def select_transactions_to_mine(self):
         """
@@ -23,9 +23,6 @@ class Miner(Blockchain):
         @return: Every unconfirmed transaction.
         """
         return self.unconfirmed_transactions.copy()
-
-
-miner = Miner()
 
 
 @app.route('/test/<test>')
@@ -63,13 +60,24 @@ def shutdown():
     return 'Server shutting down...'
 
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description="Miner launcher.")
 parser.add_argument("port", help="port to bind (from 1024 to 65535).", type=int)
+parser.add_argument("-p", "--peer", help="Address to a known existing peer (like http://example.com:9090", default="")
 args = parser.parse_args()
 port = int(args.port)
+miner = Miner()
+if args.peer:
+    miner.peers.append(args.peer)
+    print("PEERS: " + str(miner.peers))
 
 if port in range(1024, 65536):
     if __name__ == '__main__':
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        print(40*"-")
+        print(" * My IP address: " + s.getsockname()[0])
+        print(40 * "-" + "")
+        s.close()
         app.run('0.0.0.0', port)
     else:
         print("Not running as main application. Server won't go up.")

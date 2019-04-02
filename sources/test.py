@@ -1,11 +1,22 @@
 import sys
+from time import sleep
+import requests
+from robot_swarm.Robot import Robot
 
-from robot_swarm.Miner import Miner
-
+print("\n----------")
 print("Testing...")
 print("----------")
 
-
+robot = Robot(pos_x=-10, pos_y=10)
+robot.set_target(10, -10)
+robot.set_path()
+print(str("(" + str(robot.position[0]) + ", " + str(robot.position[1]) + ")"), end=" ---> ")
+print(str("(" + str(robot.target[0]) + ", " + str(robot.target[1]) + ")"))
+robot.plot_path()
+robot.add_transaction()
+sleep(5)
+url = robot.miner_address + "/shutdown"
+print(requests.get(url).text)
 sys.exit()
 
 #tx1 = Transaction({"SALUDO": "Hola"})
