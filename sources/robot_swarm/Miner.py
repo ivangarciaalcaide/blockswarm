@@ -47,7 +47,6 @@ def add_transaction():
 @app.route('/show_pending_transactions')
 def show_pending_transactions():
     result = json.dumps(miner.unconfirmed_transactions)
-    print(miner.unconfirmed_transactions)
     return result
 
 

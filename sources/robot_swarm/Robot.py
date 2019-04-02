@@ -95,7 +95,7 @@ robot.plot_path()
 robot.add_transaction()
 sleep(3)
 url = robot.miner_address + "/shutdown"
-print(requests.get(url).content)
+print(requests.get(url).text)
 
 
 
