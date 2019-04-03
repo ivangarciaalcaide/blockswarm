@@ -2,7 +2,7 @@ import json
 import matplotlib.pyplot as plt
 import requests
 import random
-from time import sleep
+
 
 class Robot:
     """
@@ -16,7 +16,7 @@ class Robot:
 
     def __init__(self, miner_host="127.0.0.1", miner_port="10000", id_robot=random.randint(1, 1001), pos_x=0, pos_y=0):
         self.miner_host = miner_host   #: Associated miner IP.
-        self.miner_port = miner_port   #: Associated miner port.
+        self.miner_port = str(miner_port)   #: Associated miner port.
         self.miner_address = "http://" + self.miner_host + ":" + self.miner_port
         self.position = [pos_x, pos_y]  #: Position of the robot in the grid.
         self.target = [0, 0]            #: Position to reach.
@@ -61,14 +61,14 @@ class Robot:
 
             self.path.append([x0, y0])
 
-    def add_transaction(self):
+    def add_new_transaction(self):
         """
         It adds a new transaction with its current position as data to its miner.
 
         @return: True, if request was successfully accomplished. False, otherwise.
         """
         tx_data = '{"id_robot": "' + str(self.id_robot) + '", "pos": ' + json.dumps(self.position) + '}'
-        url = self.miner_address + "/add_transaction"
+        url = self.miner_address + "/add_new_transaction/do_spread"
         headers = {'Content-Type': "application/json"}
         req = requests.post(url, data=tx_data, headers=headers)
         return req.ok
