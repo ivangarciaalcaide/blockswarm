@@ -58,7 +58,7 @@ class Blockchain:
 
         @param transaction: L{Transaction} object to be inserted.
         """
-        self.unconfirmed_transactions.append(json.loads(transaction.__str__()))
+        self.unconfirmed_transactions.append(json.loads(str(transaction)))
 
     @abstractmethod
     def select_transactions_to_mine(self):
@@ -241,15 +241,15 @@ class Blockchain:
         return json.dumps(mi_json, indent=4)
 
 
-class MyBlockChain(Blockchain):
-
-    def __init__(self):
-        super().__init__()
-
-    def select_transactions_to_mine(self):
-        """
-        In L{MyBlockChain} all remaining unconfirmed transactions are selected.
-
-        @return: Every unconfirmed transaction.
-        """
-        return self.unconfirmed_transactions.copy()
+# class MyBlockChain(Blockchain):
+#
+#     def __init__(self):
+#         super().__init__()
+#
+#     def select_transactions_to_mine(self):
+#         """
+#         In L{MyBlockChain} all remaining unconfirmed transactions are selected.
+#
+#         @return: Every unconfirmed transaction.
+#         """
+#         return self.unconfirmed_transactions.copy()

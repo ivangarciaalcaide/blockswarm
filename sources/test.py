@@ -22,19 +22,15 @@ print(str("(" + str(robot.position[0]) + ", " + str(robot.position[1]) + ")"), e
 print(str("(" + str(robot.target[0]) + ", " + str(robot.target[1]) + ")"))
 robot.plot_path()
 
-# tx_data = '{"id_robot": "pene", "pos": [0,0]}'
-# headers = {'Content-Type': "application/json"}
-# req = requests.post("http://127.0.0.1:11000/add_new_transaction/no_spread", data=tx_data, headers=headers)
-
-# print(requests.get("http://127.0.0.1:11000/add_new_transaction/no_spread").text)
-
+robot.add_new_transaction()
+robot.position = [5, 5]
+sleep(1)
 robot.add_new_transaction()
 sleep(5)
 url = robot.miner_address + "/shutdown"
 print(requests.get(url).text)
-
-
 print(requests.get("http://127.0.0.1:11000/shutdown").text)
+
 sys.exit()
 
 #tx1 = Transaction({"SALUDO": "Hola"})

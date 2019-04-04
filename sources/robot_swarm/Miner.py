@@ -42,8 +42,12 @@ def test(test):
 def add_new_transaction(spread):
     # Generate Transaction object from JSON and insert it into its miner unconfirmed transaction list.
     tx_json = request.get_json()
-    tx = Transaction(json.dumps(tx_json))
+    if 'id_tx' in tx_json:
+        tx = Transaction(json.dumps(tx_json.get('data')), id_tx=tx_json.get('id_tx'))
+    else:
+        tx = Transaction(json.dumps(tx_json))
     miner.add_new_transaction(tx)
+    tx_json = json.loads(str(tx))
 
     # If it is the first peer to receive the TX, spread it to other peers.
     if spread == "do_spread":
@@ -58,6 +62,12 @@ def add_new_transaction(spread):
 @app.route('/get_pending_transactions')
 def get_pending_transactions():
     result = json.dumps(miner.unconfirmed_transactions)
+    return result
+
+
+@app.route('/get_chain')
+def get_chain():
+    result = str(miner)
     return result
 
 
@@ -78,6 +88,10 @@ def shutdown():
     shutdown_server()
     return 'Server shutting down...'
 
+
+@app.route('/show_peers')
+def show_peers():
+    return json.dumps(miner.peers)
 
 """
 Module execution starts here...
