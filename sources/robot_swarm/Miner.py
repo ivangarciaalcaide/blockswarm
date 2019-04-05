@@ -50,16 +50,15 @@ def add_new_transaction(spread):
     return "Success", 201
 
 
-@app.route('/get_pending_transactions')
+@app.route('/get_pending_transactions', methods=['POST', 'GET'])
 def get_pending_transactions():
     result = json.dumps(miner.unconfirmed_transactions)
-    return result
+    return Response(result, status=200, content_type='application/json')
 
 
-@app.route('/get_chain')
+@app.route('/get_chain', methods=['POST', 'GET'])
 def get_chain():
-    result = str(miner)
-    return result
+    return Response(str(miner), status=200, content_type='application/json')
 
 
 def shutdown_server():

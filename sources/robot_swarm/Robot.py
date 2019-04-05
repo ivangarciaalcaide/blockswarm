@@ -33,12 +33,13 @@ class Robot:
 
     def set_target(self, to_x, to_y):
         """
-        Sets the target position.
+        Sets the target position. It updates the path to reach this new target.
 
         @param to_x: X axis position to reach
         @param to_y: Y axis position to reach
         """
         self.target = [to_x, to_y]
+        self.set_path()
 
     def set_path(self):
         """
