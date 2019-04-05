@@ -1,4 +1,7 @@
+import argparse
 import json
+from time import sleep
+
 import matplotlib.pyplot as plt
 import requests
 import random
@@ -14,14 +17,19 @@ class Robot:
     its associated miner. It knows about its miner from its IP address and port.
     """
 
-    def __init__(self, miner_host="127.0.0.1", miner_port="10000", id_robot=random.randint(1, 1001), pos_x=0, pos_y=0):
-        self.miner_host = miner_host   #: Associated miner IP.
-        self.miner_port = str(miner_port)   #: Associated miner port.
-        self.miner_address = "http://" + self.miner_host + ":" + self.miner_port
+    def __init__(self, peer_address="", miner_address="http://127.0.0.1:10000", id_robot=random.randint(1, 1001), pos_x=0, pos_y=0):
+        self.miner_address = miner_address
         self.position = [pos_x, pos_y]  #: Position of the robot in the grid.
         self.target = [0, 0]            #: Position to reach.
         self.id_robot = id_robot        #: Robot instance id.
         self.path = []                  #: Path to follow from current position to reach target.
+        self.peer_address = peer_address
+
+    def register_me(self):
+        headers = {'Content-Type': "application/json"}
+        peer_info = {"peer": self.peer_address}
+        requests.post(self.miner_address + "/register_peer", data=json.dumps(peer_info), headers=headers)
+        requests.post(self.miner_address + "/register_me", headers=headers)
 
     def set_target(self, to_x, to_y):
         """
@@ -74,6 +82,11 @@ class Robot:
         return req.ok
 
     def plot_path(self):
+        """
+        A test method that plots robot choosen path from its position to target.
+
+        @return:
+        """
         print(self.path)
         plt.xlim(-10, 10)
         plt.ylim(-10, 10)
@@ -85,6 +98,36 @@ class Robot:
         plt.plot(l1, l2, marker='o')
         plt.show()
 
+    def start(self):
+        """
+        The Robot starts to do whatever it has to do.
+        @return:
+        """
+        # First, if I know a peer, I register my self into the network.
+        if self.peer_address:
+            self.register_me()
+
+        sleep(1000)
+
+
+##################
+# Robot Launcher #
+##################
+
+parser = argparse.ArgumentParser(description="Robot launcher.")
+parser.add_argument("miner_address", help="Miner address for this robot (like http://example.com:9090).")
+parser.add_argument("-p", "--peer_address", help="Address to a known existing peer.", default="")
+parser.add_argument("-i", "--id_robot", help="An integer for the Robot's ID.", type=int, default=random.randint(1, 1001))
+args = parser.parse_args()
+
+robot = Robot(miner_address=args.miner_address)
+
+if args.peer_address:
+    robot.peer_address = args.peer_address
+if args.id_robot:
+    robot.id_robot = args.id_robot
+
+robot.start()
 
 
 

@@ -15,21 +15,22 @@ args = parser.parse_args()
 # Collects arguments and create miner setting it appropriately.
 port = int(args.port)
 
-robot = Robot(pos_x=-10, pos_y=10, miner_port=port)
+robot = Robot(pos_x=-10, pos_y=10)
 robot.set_target(10, -10)
 robot.set_path()
 print(str("(" + str(robot.position[0]) + ", " + str(robot.position[1]) + ")"), end=" ---> ")
 print(str("(" + str(robot.target[0]) + ", " + str(robot.target[1]) + ")"))
-robot.plot_path()
+# robot.plot_path()
 
-robot.add_new_transaction()
-robot.position = [5, 5]
-sleep(1)
-robot.add_new_transaction()
+# robot.add_new_transaction()
+# robot.position = [5, 5]
+# sleep(1)
+# robot.add_new_transaction()
 sleep(5)
 url = robot.miner_address + "/shutdown"
 print(requests.get(url).text)
 print(requests.get("http://127.0.0.1:11000/shutdown").text)
+print(requests.get("http://127.0.0.1:9000/shutdown").text)
 
 sys.exit()
 

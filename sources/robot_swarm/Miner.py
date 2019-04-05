@@ -1,9 +1,8 @@
 import json
 import socket
 import argparse
-
 import requests
-from flask import Flask, request
+from flask import Flask, request, Response
 
 from bs_blockchain.Blockchain import Blockchain
 from bs_blockchain.Transaction import Transaction
@@ -16,6 +15,10 @@ class Miner(Blockchain):
     def __init__(self):
         super().__init__()
         self.peers = []  #: List of connected peers by connection address.
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        self.connect_address = "http://" + s.getsockname()[0] + ":" + str(port)
+        s.close()
 
     def select_transactions_to_mine(self):
         """
@@ -24,18 +27,6 @@ class Miner(Blockchain):
         @return: Every unconfirmed transaction.
         """
         return self.unconfirmed_transactions.copy()
-
-
-@app.route('/test/<test>')
-def test(test):
-    """
-    # TODO: Remove this method as it is only for testing purpose.
-    """
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    ip = s.getsockname()[0]
-    s.close()
-    return "TX:<br><br> " + test + "<br>" + str(miner.chain) + "<br>" + ip
 
 
 @app.route('/add_new_transaction/<spread>', methods=['POST'])
@@ -89,35 +80,63 @@ def shutdown():
     return 'Server shutting down...'
 
 
-@app.route('/show_peers')
-def show_peers():
-    return json.dumps(miner.peers)
+@app.route('/get_peers', methods=['POST', 'GET'])
+def get_peers():
+    # return json.dumps(miner.peers)
+    return Response(json.dumps(miner.peers), status=200, content_type='application/json')
 
-"""
-Module execution starts here...
-"""
+
+@app.route('/register_me', methods=['POST'])
+def register_me():
+    """
+    Announce this miner to the rest of miners. This way, this new robot get peered with the rest.
+    """
+
+    # Requests to the known peer its set of peers so all of them got stored in the
+    # list of known peers.
+    headers = {'Content-Type': "application/json"}
+    req = requests.post(miner.peers[0] + "/get_peers", headers=headers)
+    if req.json():
+        miner.peers.extend(req.json())
+
+    # Tells to every known node to register me.
+    my_info = {"peer": miner.connect_address}
+    for peer in miner.peers:
+        peer_url = str(peer) + "/register_peer"
+        requests.post(peer_url, data=json.dumps(my_info), headers=headers)
+
+    return "Success", 201
+
+
+@app.route('/register_peer', methods=['POST'])
+def register_peer():
+    """
+    Includes a new node to the list of peers.
+    """
+    peer_json = request.get_json()
+    miner.peers.append(peer_json['peer'])
+    return "Success", 201
+
+
+##################
+# Miner Launcher #
+##################
 
 parser = argparse.ArgumentParser(description="Miner launcher.")
 parser.add_argument("port", help="port to bind (from 1024 to 65535).", type=int)
-parser.add_argument("-p", "--peer", help="Address to a known existing peer (like http://example.com:9090", default="")
 args = parser.parse_args()
 
 # Collects arguments and create miner setting it appropriately.
 port = int(args.port)
 miner = Miner()
-if args.peer:
-    miner.peers.append(args.peer)
-    print("PEERS: " + str(miner.peers))
 
 if port in range(1024, 65536):
     if __name__ == '__main__':
         # Flask is ready to get up so, some extra info is printed (like external ip address).
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        print(40 * "-")
-        print(" * My IP address: " + s.getsockname()[0])
-        print(40 * "-" + "")
-        s.close()
+        print_separator = (len(miner.connect_address) + 19) * "-"
+        print("\n" + print_separator)
+        print("* My IP address: " + miner.connect_address + " *")
+        print(print_separator + "\n")
         app.run('0.0.0.0', port)
     else:
         print("Not running as main application. Server won't go up.")
