@@ -1,20 +1,18 @@
 import sys
-from time import sleep
-import requests
-import argparse
 from robot_swarm.Robot import Robot
 
 print("\n----------")
 print("Testing...")
 print("----------")
 
-robot_1 = Robot(miner_address="http://127.0.0.1:10000", id_robot=1,  pos_x=1, pos_y=1)
-robot_2 = Robot(peer_address="http://127.0.0.1:10000", miner_address="http://127.0.0.1:20000", id_robot=2,  pos_x=2, pos_y=2)
-robot_3 = Robot(peer_address="http://127.0.0.1:20000", miner_address="http://127.0.0.1:30000", id_robot=3,  pos_x=3, pos_y=3)
-robot_4 = Robot(peer_address="http://127.0.0.1:20000", miner_address="http://127.0.0.1:40000", id_robot=4,  pos_x=4, pos_y=4)
+robots = [
+    Robot(miner_address="http://127.0.0.1:10000", id_robot=1, pos_x=1, pos_y=1),
+    Robot(peer_address="http://127.0.0.1:10000", miner_address="http://127.0.0.1:20000", id_robot=2, pos_x=2, pos_y=2),
+    Robot(peer_address="http://127.0.0.1:20000", miner_address="http://127.0.0.1:30000", id_robot=3, pos_x=3, pos_y=3),
+    Robot(peer_address="http://127.0.0.1:20000", miner_address="http://127.0.0.1:40000", id_robot=4, pos_x=4, pos_y=4)
+]
 
-
-
+robots[0].start()
 
 sys.exit()
 
@@ -44,9 +42,9 @@ sys.exit()
 #
 
 
-#tx1 = Transaction({"SALUDO": "Hola"})
-#tx2 = Transaction({"SALUDO": "Adios"})
-#tx3 = Transaction({"Nombre": "Pepe"})
+# tx1 = Transaction({"SALUDO": "Hola"})
+# tx2 = Transaction({"SALUDO": "Adios"})
+# tx3 = Transaction({"Nombre": "Pepe"})
 
 # tx1 = Transaction("Hola")
 # tx2 = Transaction("Adios")
@@ -83,7 +81,7 @@ sys.exit()
 # chain_id = blockchain.chain
 # print("-------------------------------------------")
 # print("Current blockchain from mining")
-#print(blockchain)
+# print(blockchain)
 # print("Is a valid chain? : " + str(blockchain.is_valid_chain(blockchain.chain)))
 # print("-------------------------------------------")
 # print("Saving chain to file...")
@@ -99,7 +97,7 @@ sys.exit()
 # print("Transaction added.")
 # print("-------------------------------------------")
 # print("Current blockchain from mining")
-#print(blockchain)
+# print(blockchain)
 # print("Is valid chain? : " + str(blockchain.is_valid_chain(blockchain.chain)))
 # print("-------------------------------------------")
 # print("Updating blockchain from file.")
@@ -111,19 +109,19 @@ sys.exit()
 # print("Is a valid chain? : " + str(blockchain.is_valid_chain(blockchain.chain)))
 # print("-------------------------------------------")
 
-#print("Previous chain: " + str(chain_id))
-#print("Current chain : " + str(blockchain.chain))
+# print("Previous chain: " + str(chain_id))
+# print("Current chain : " + str(blockchain.chain))
 
 # print("Current chain length: " + str(len(blockchain.chain)))
 
 # print("Unconfirmed transactions (" + str(len(blockchain.unconfirmed_transactions)) + "): " + str(blockchain.unconfirmed_transactions))
 
-#blockchain.chain[2].previous_hash = "holamariposa"
-#check = blockchain.is_valid_chain(blockchain.chain)
-#print(check)
+# blockchain.chain[2].previous_hash = "holamariposa"
+# check = blockchain.is_valid_chain(blockchain.chain)
+# print(check)
 
 
-#print(blockchain)
-#print(blockchain.is_valid_chain(blockchain.chain))
-#print(blockchain.chain[1].timestamp)
+# print(blockchain)
+# print(blockchain.is_valid_chain(blockchain.chain))
+# print(blockchain.chain[1].timestamp)
 # print("Unconfirmed transactions (" + str(len(blockchain.unconfirmed_transactions)) + "): " + str(blockchain.unconfirmed_transactions))

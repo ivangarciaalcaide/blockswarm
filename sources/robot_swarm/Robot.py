@@ -47,6 +47,7 @@ class Robot:
         Path is an ordered list of cells the robot is going through. A cell is a two integers list where the first
         one is the X position and the second one is Y position.
         """
+        self.path = []
         x0, y0 = self.position[0], self.position[1]      # Initial point
         x1, y1 = self.target[0], self.target[1]          # Target point
 
@@ -70,6 +71,22 @@ class Robot:
 
             self.path.append([x0, y0])
 
+    def move_to_target(self, speed=1):
+        """
+        It changes current position of robot to the +I{speed} position in path and update path.
+
+        @param speed: Number of positions in the move.
+        """
+        if not self.path:
+            return False
+        else:
+            if speed < len(self.path):
+                self.position = self.path[speed]
+            else:
+                self.position = self.path.pop()
+
+            self.set_path()
+
     def add_new_transaction(self):
         """
         It adds a new transaction with its current position as data to its miner.
@@ -77,7 +94,7 @@ class Robot:
         @return: True, if request was successfully accomplished. False, otherwise.
         """
         tx_data = '{"id_robot": "' + str(self.id_robot) + '", "pos": ' + json.dumps(self.position) + '}'
-        url = self.miner_address + "/add_new_transaction/do_spread"
+        url = self.miner_address + "/add_new_transaction"
         headers = {'Content-Type': "application/json"}
         req = requests.post(url, data=tx_data, headers=headers)
         return req.ok
@@ -99,6 +116,20 @@ class Robot:
         plt.plot(l1, l2, marker='o')
         plt.show()
 
+    def print_info(self):
+        """
+        A test method that prints information about the state of the robot.
+
+        @return:
+        """
+        print(80 * "-")
+        print("Robot ID: " + str(self.id_robot))
+        print("     Current Position: " + str(self.position))
+        print("     Current Target  : " + str(self.target))
+        path_to_print = ("\n" + 23 * " ").join((str(self.path))[i:i+57] for i in range(0, len(str(self.path)), 57))
+        print("     Following Path  : " + path_to_print)
+        print(80 * "-")
+
     def start(self):
         """
         The Robot starts to do whatever it has to do.
@@ -108,27 +139,44 @@ class Robot:
         if self.peer_address:
             self.register_me()
 
+        # For testing purpose, a target is going to be set to the robot.
+        # Every N seconds, robot will move towards target. Speed will be the number
+        # of steps made in the movement, it is the number of positions walked.
+        # Then, it recalculates the path and moves again till target is reached.
+        self.set_target(20, 25)
+
+        self.print_info()
+        self.add_new_transaction()
+
+        while len(self.path) > 1:
+            i = random.randint(1, 10)
+            print("Speed: " + str(i), end="      ")
+            self.move_to_target(i)
+            print("Positions to target: " + str(len(self.path)))
+            self.print_info()
+            self.add_new_transaction()
+
         sleep(1000)
 
 
 ##################
 # Robot Launcher #
 ##################
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Robot launcher.")
+    parser.add_argument("miner_address", help="Miner address for this robot (like http://example.com:9090).")
+    parser.add_argument("-p", "--peer_address", help="Address to a known existing peer.", default="")
+    parser.add_argument("-i", "--id_robot", help="An integer for the Robot's ID.", type=int, default=random.randint(1, 1001))
+    args = parser.parse_args()
 
-parser = argparse.ArgumentParser(description="Robot launcher.")
-parser.add_argument("miner_address", help="Miner address for this robot (like http://example.com:9090).")
-parser.add_argument("-p", "--peer_address", help="Address to a known existing peer.", default="")
-parser.add_argument("-i", "--id_robot", help="An integer for the Robot's ID.", type=int, default=random.randint(1, 1001))
-args = parser.parse_args()
+    robot = Robot(miner_address=args.miner_address)
 
-robot = Robot(miner_address=args.miner_address)
+    if args.peer_address:
+        robot.peer_address = args.peer_address
+    if args.id_robot:
+        robot.id_robot = args.id_robot
 
-if args.peer_address:
-    robot.peer_address = args.peer_address
-if args.id_robot:
-    robot.id_robot = args.id_robot
-
-robot.start()
+    robot.start()
 
 
 

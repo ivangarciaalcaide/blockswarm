@@ -4,6 +4,7 @@ import argparse
 import requests
 from flask import Flask, request, Response
 
+from bs_blockchain.Block import Block
 from bs_blockchain.Blockchain import Blockchain
 from bs_blockchain.Transaction import Transaction
 
@@ -29,30 +30,41 @@ class Miner(Blockchain):
         return self.unconfirmed_transactions.copy()
 
 
-@app.route('/add_new_transaction/<spread>', methods=['POST'])
-def add_new_transaction(spread):
-    # Generate Transaction object from JSON and insert it into its miner unconfirmed transaction list.
-    tx_json = request.get_json()
+@app.route('/add_new_transaction', methods=['POST'])
+def add_new_transaction():
+
+    store_transaction(request.get_json())
+
+    for peer in miner.peers:
+        url = peer + "/register_transaction"
+        headers = {'Content-Type': "application/json"}
+        requests.post(url, data=json.dumps(request.get_json()), headers=headers)
+
+    return "Success", 200
+
+
+@app.route('/register_transaction', methods=['POST'])
+def register_transaction():
+    """
+    Includes a new transaction to the list of unconfirmed transactions.
+    """
+    store_transaction(request.get_json())
+
+    return "Success", 200
+
+
+def store_transaction(tx_json):
+    # tx = Transaction(json.dumps(tx_json))
     if 'id_tx' in tx_json:
         tx = Transaction(json.dumps(tx_json.get('data')), id_tx=tx_json.get('id_tx'))
     else:
         tx = Transaction(json.dumps(tx_json))
     miner.add_new_transaction(tx)
-    tx_json = json.loads(str(tx))
-
-    # If it is the first peer to receive the TX, spread it to other peers.
-    if spread == "do_spread":
-        for peer in miner.peers:
-            url = peer + "/add_new_transaction/no_spread"
-            headers = {'Content-Type': "application/json"}
-            requests.post(url, data=json.dumps(tx_json), headers=headers)
-
-    return "Success", 201
 
 
 @app.route('/get_pending_transactions', methods=['POST', 'GET'])
 def get_pending_transactions():
-    result = json.dumps(miner.unconfirmed_transactions)
+    result = json.dumps(miner.unconfirmed_transactions, indent=4)
     return Response(result, status=200, content_type='application/json')
 
 
@@ -98,13 +110,33 @@ def register_me():
     if req.json():
         miner.peers.extend(req.json())
 
+    # As there is one peer at least that have created the chain, I'll accept his.
+    req = requests.post(miner.peers[0] + "/get_chain", headers=headers)
+
+    blocks = req.json()['chain']
+    new_chain = []
+    for x in range(0, len(blocks)):
+        new_chain.append(Block(0, [], 0, '0'))
+        for key in blocks[x]:
+            setattr(new_chain[x], key, blocks[x][key])
+
+    if len(new_chain) == 1 or miner.is_valid_chain(new_chain):
+        miner.chain = new_chain
+    else:
+        return "Chain NOT valid !!!", 200
+
+    # We'll take its unconfirmed transactions too.
+    req = requests.post(miner.peers[0] + "/get_pending_transactions", headers=headers)
+    for tx in req.json():
+        store_transaction(tx)
+
     # Tells to every known node to register me.
     my_info = {"peer": miner.connect_address}
     for peer in miner.peers:
         peer_url = str(peer) + "/register_peer"
         requests.post(peer_url, data=json.dumps(my_info), headers=headers)
 
-    return "Success", 201
+    return "Success", 200
 
 
 @app.route('/register_peer', methods=['POST'])
@@ -114,23 +146,23 @@ def register_peer():
     """
     peer_json = request.get_json()
     miner.peers.append(peer_json['peer'])
-    return "Success", 201
+    return "Success", 200
 
 
 ##################
 # Miner Launcher #
 ##################
 
-parser = argparse.ArgumentParser(description="Miner launcher.")
-parser.add_argument("port", help="port to bind (from 1024 to 65535).", type=int)
-args = parser.parse_args()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Miner launcher.")
+    parser.add_argument("port", help="port to bind (from 1024 to 65535).", type=int)
+    args = parser.parse_args()
 
-# Collects arguments and create miner setting it appropriately.
-port = int(args.port)
-miner = Miner()
+    # Collects arguments and create miner setting it appropriately.
+    port = int(args.port)
+    miner = Miner()
 
-if port in range(1024, 65536):
-    if __name__ == '__main__':
+    if port in range(1024, 65536):
         # Flask is ready to get up so, some extra info is printed (like external ip address).
         print_separator = (len(miner.connect_address) + 19) * "-"
         print("\n" + print_separator)
@@ -138,6 +170,6 @@ if port in range(1024, 65536):
         print(print_separator + "\n")
         app.run('0.0.0.0', port)
     else:
-        print("Not running as main application. Server won't go up.")
+        print("Port must be between 1024 and 65535.")
 else:
-    print("Port must be between 1024 and 65535.")
+    print("Not running as main application. Server won't go up.")
