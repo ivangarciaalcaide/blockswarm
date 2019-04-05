@@ -57,7 +57,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="bs_blockchain.Blockchain.MyBlockChain-class.html">MyBlockChain</a></li>  </ul>
+<li><a href="robot_swarm.Miner.Miner-class.html">robot_swarm.Miner.Miner</a></li>  </ul>
 </dd></dl>
 
 <hr />
@@ -100,10 +100,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#create_genesis_block" class="summary-sig-name">create_genesis_block</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Creates first block of the chain and append it to the chain.</td>
+          <td><span class="summary-sig"><a name="__str__"></a><span class="summary-sig-name">__str__</span>(<span class="summary-sig-arg">self</span>)</span></td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.create_genesis_block">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.__str__">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -117,11 +116,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#proof_of_work" class="summary-sig-name">proof_of_work</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">block</span>)</span><br />
-      Proof of work implementation.</td>
+          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#add_block" class="summary-sig-name">add_block</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">new_block</span>)</span><br />
+      Append a new block to the chain after checking its correctness.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.proof_of_work">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.add_block">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -156,10 +155,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#select_transactions_to_mine" class="summary-sig-name">select_transactions_to_mine</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      It selects what transactions to be mined in a given block.</td>
+          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#chain_from_file" class="summary-sig-name">chain_from_file</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">filename</span>)</span><br />
+      Reads a file that contains a chain and store it as its chain if it is
+      valid.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.select_transactions_to_mine">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.chain_from_file">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -173,11 +174,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#mine" class="summary-sig-name">mine</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">allow_empty_transactions</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Mines a new block and add it to the chain.</td>
+          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#chain_to_file" class="summary-sig-name">chain_to_file</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">filename</span>,
+        <span class="summary-sig-arg">compress_level</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Saves the current chain into a file.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.mine">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.chain_to_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#create_genesis_block" class="summary-sig-name">create_genesis_block</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Creates first block of the chain and append it to the chain.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.create_genesis_block">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -230,11 +249,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#add_block" class="summary-sig-name">add_block</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">new_block</span>)</span><br />
-      Append a new block to the chain after checking its correctness.</td>
+          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#mine" class="summary-sig-name">mine</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">allow_empty_transactions</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Mines a new block and add it to the chain.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.add_block">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.mine">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -248,12 +267,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#chain_to_file" class="summary-sig-name">chain_to_file</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">filename</span>,
-        <span class="summary-sig-arg">compress_level</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Saves the current chain into a file.</td>
+          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#proof_of_work" class="summary-sig-name">proof_of_work</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">block</span>)</span><br />
+      Proof of work implementation.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.chain_to_file">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.proof_of_work">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -267,28 +285,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#chain_from_file" class="summary-sig-name">chain_from_file</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">filename</span>)</span><br />
-      Reads a file that contains a chain and store it as its chain if it is
-      valid.</td>
+          <td><span class="summary-sig"><a href="bs_blockchain.Blockchain.Blockchain-class.html#select_transactions_to_mine" class="summary-sig-name">select_transactions_to_mine</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      It selects what transactions to be mined in a given block.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.chain_from_file">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="__str__"></a><span class="summary-sig-name">__str__</span>(<span class="summary-sig-arg">self</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.__str__">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.select_transactions_to_mine">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -318,14 +318,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="unconfirmed_transactions"></a><span class="summary-name">unconfirmed_transactions</span><br />
-      Set of transactions wating to be mined.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a name="chain"></a><span class="summary-name">chain</span><br />
       List og blocks that conforms the block chain
     </td>
@@ -336,6 +328,14 @@
     </td><td class="summary">
         <a name="pow_difficulty"></a><span class="summary-name">pow_difficulty</span><br />
       Difficulty of PoW
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="unconfirmed_transactions"></a><span class="summary-name">unconfirmed_transactions</span><br />
+      Set of transactions wating to be mined.
     </td>
   </tr>
 </table>
@@ -383,68 +383,29 @@
   </td>
 </tr>
 </table>
-<a name="create_genesis_block"></a>
+<a name="add_block"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">create_genesis_block</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">add_block</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">new_block</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.create_genesis_block">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.add_block">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Creates first block of the chain and append it to the chain.</p>
-  <p>Considerations:</p>
-  <ul>
-    <li>
-      It is indexed at position 0.
-    </li>
-    <li>
-      As there is not a previous block, previous_hash is set to 
-      &quot;0&quot;.
-    </li>
-    <li>
-      As there are not transactions to mine yet, transaction list is empty.
-    </li>
-  </ul>
-  <dl class="fields">
-  </dl>
-</td></tr></table>
-</div>
-<a name="proof_of_work"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">proof_of_work</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">block</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.proof_of_work">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Proof of work implementation.</p>
-  <p>It takes a block and sets its nonce to 0. Then, calculates its hash 
-  from <a href="bs_blockchain.Block.Block-class.html#get_string_to_hash" 
-  class="link">Block.get_string_to_hash(self)</a>. This hash must end with,
-  at least, as many '0's characters as indicated in <a 
-  href="bs_blockchain.Blockchain.Blockchain-class.html#pow_difficulty" 
-  class="link">pow_difficulty</a> to success. I hash doesn't accomplish 
-  PoW, nonce value is incremented by 1 and it starts over.</p>
-  <p>Once nonce is found, block's hash is updated.</p>
+  <p>Append a new block to the chain after checking its correctness.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>block</code></strong> - Block over the proof of work is executed. # @return: String with 
-          the hash that accomplish the PoW.</li>
+        <li><strong class="pname"><code>new_block</code></strong> - New block to be added.</li>
     </ul></dd>
+    <dt>Returns:</dt>
+        <dd>False, if block couldn't be added. The new block, otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -476,84 +437,104 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="select_transactions_to_mine"></a>
+<a name="chain_from_file"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">select_transactions_to_mine</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">chain_from_file</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">filename</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.select_transactions_to_mine">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.chain_from_file">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>It selects what transactions to be mined in a given block.</p>
+  <p>Reads a file that contains a chain and store it as its chain if it is 
+  valid.</p>
   <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>A list with selected <a 
-          href="bs_blockchain.Transaction-module.html" 
-          class="link">transactions</a></dd>
-    <dt>Decorators:</dt>
+    <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><code>@abstractmethod</code></li>
+        <li><strong class="pname"><code>filename</code></strong> - Name of the file wher the chain is stored. (Path is relative to 
+          working dir)</li>
     </ul></dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="mine"></a>
+<a name="chain_to_file"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">mine</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">allow_empty_transactions</span>=<span class="sig-default">False</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">chain_to_file</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">filename</span>,
+        <span class="sig-arg">compress_level</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.mine">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.chain_to_file">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Mines a new block and add it to the chain.</p>
-  <p>Mining steps:</p>
-  <ol start="1">
+  <p>Saves the current chain into a file.</p>
+  <p>Depending on <b>compress_level</b> it behaves in two different ways. 
+  <b>compress_level</b> range is from 0 to 9. By default, 
+  <b>compress_level</b> is set to 0:</p>
+  <ul>
     <li>
-      Selects transactions to be incorporated to the block.
+      &quot;<b>0</b>&quot;: No compress and JSON text file is generated 
+      <i>UTF-8</i> encoded.
     </li>
     <li>
-      Creates a block with current information available
-      <ul>
-        <li>
-          Selected transactions
-        </li>
-        <li>
-          Current time for timestamp
-        </li>
-        <li>
-          Previous hash filled with last block hash.
-        </li>
-      </ul>
+      &quot;<b>1 - 9</b>&quot;: Compressed <b>gzip</b> file is generated. 
+      <b>1</b> is fastest and produces the least compression. <b>9</b> is 
+      slowest and produces the most compression. File will not be human 
+      readable.
     </li>
-    <li>
-      Fills hash field with proof of work.
-    </li>
-    <li>
-      Removes mined transactions from <a 
-      href="bs_blockchain.Blockchain.Blockchain-class.html#unconfirmed_transactions"
-      class="link">unconfirmed_transactions</a> list.
-    </li>
-  </ol>
+  </ul>
+  <p>Working with text files is much harder and takes much longer than with
+  binary (compressed) files.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>allow_empty_transactions</code></strong> (boolean) - True, mine the block even if transaction's block list is empty.</li>
+        <li><strong class="pname"><code>filename</code></strong> (String) - Desired name for the file. (Path is relative to working dir)</li>
+        <li><strong class="pname"><code>compress_level</code></strong> (int) - Desired compress level or, 0, produces a JSON text file (UTF-8).</li>
     </ul></dd>
-    <dt>Returns:</dt>
-        <dd>False, If block could not be mined. The mined block, otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="create_genesis_block"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">create_genesis_block</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.create_genesis_block">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Creates first block of the chain and append it to the chain.</p>
+  <p>Considerations:</p>
+  <ul>
+    <li>
+      It is indexed at position 0.
+    </li>
+    <li>
+      As there is not a previous block, previous_hash is set to 
+      &quot;0&quot;.
+    </li>
+    <li>
+      As there are not transactions to mine yet, transaction list is empty.
+    </li>
+  </ul>
+  <dl class="fields">
   </dl>
 </td></tr></table>
 </div>
@@ -630,97 +611,116 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="add_block"></a>
+<a name="mine"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">add_block</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">new_block</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">mine</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">allow_empty_transactions</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.add_block">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.mine">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Append a new block to the chain after checking its correctness.</p>
+  <p>Mines a new block and add it to the chain.</p>
+  <p>Mining steps:</p>
+  <ol start="1">
+    <li>
+      Selects transactions to be incorporated to the block.
+    </li>
+    <li>
+      Creates a block with current information available
+      <ul>
+        <li>
+          Selected transactions
+        </li>
+        <li>
+          Current time for timestamp
+        </li>
+        <li>
+          Previous hash filled with last block hash.
+        </li>
+      </ul>
+    </li>
+    <li>
+      Fills hash field with proof of work.
+    </li>
+    <li>
+      Removes mined transactions from <a 
+      href="bs_blockchain.Blockchain.Blockchain-class.html#unconfirmed_transactions"
+      class="link">unconfirmed_transactions</a> list.
+    </li>
+  </ol>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>new_block</code></strong> - New block to be added.</li>
+        <li><strong class="pname"><code>allow_empty_transactions</code></strong> (boolean) - True, mine the block even if transaction's block list is empty.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>False, if block couldn't be added. The new block, otherwise.</dd>
+        <dd>False, If block could not be mined. The mined block, otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="chain_to_file"></a>
+<a name="proof_of_work"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">chain_to_file</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">filename</span>,
-        <span class="sig-arg">compress_level</span>=<span class="sig-default">0</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">proof_of_work</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">block</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.chain_to_file">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.proof_of_work">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Saves the current chain into a file.</p>
-  <p>Depending on <b>compress_level</b> it behaves in two different ways. 
-  <b>compress_level</b> range is from 0 to 9. By default, 
-  <b>compress_level</b> is set to 0:</p>
-  <ul>
-    <li>
-      &quot;<b>0</b>&quot;: No compress and JSON text file is generated 
-      <i>UTF-8</i> encoded.
-    </li>
-    <li>
-      &quot;<b>1 - 9</b>&quot;: Compressed <b>gzip</b> file is generated. 
-      <b>1</b> is fastest and produces the least compression. <b>9</b> is 
-      slowest and produces the most compression. File will not be human 
-      readable.
-    </li>
-  </ul>
-  <p>Working with text files is much harder and takes much longer than with
-  binary (compressed) files.</p>
+  <p>Proof of work implementation.</p>
+  <p>It takes a block and sets its nonce to 0. Then, calculates its hash 
+  from <a href="bs_blockchain.Block.Block-class.html#get_string_to_hash" 
+  class="link">Block.get_string_to_hash(self)</a>. This hash must end with,
+  at least, as many '0's characters as indicated in <a 
+  href="bs_blockchain.Blockchain.Blockchain-class.html#pow_difficulty" 
+  class="link">pow_difficulty</a> to success. I hash doesn't accomplish 
+  PoW, nonce value is incremented by 1 and it starts over.</p>
+  <p>Once nonce is found, block's hash is updated.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>filename</code></strong> (String) - Desired name for the file. (Path is relative to working dir)</li>
-        <li><strong class="pname"><code>compress_level</code></strong> (int) - Desired compress level or, 0, produces a JSON text file (UTF-8).</li>
+        <li><strong class="pname"><code>block</code></strong> - Block over the proof of work is executed. # @return: String with 
+          the hash that accomplish the PoW.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="chain_from_file"></a>
+<a name="select_transactions_to_mine"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">chain_from_file</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">filename</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">select_transactions_to_mine</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.chain_from_file">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="bs_blockchain.Blockchain-pysrc.html#Blockchain.select_transactions_to_mine">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Reads a file that contains a chain and store it as its chain if it is 
-  valid.</p>
+  <p>It selects what transactions to be mined in a given block.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Returns:</dt>
+        <dd>A list with selected <a 
+          href="bs_blockchain.Transaction-module.html" 
+          class="link">transactions</a></dd>
+    <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>filename</code></strong> - Name of the file wher the chain is stored. (Path is relative to 
-          working dir)</li>
+        <li><code>@abstractmethod</code></li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -783,7 +783,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  2 11:23:45 2019
+    Generated by Epydoc 3.0.1 on Fri Apr  5 17:09:42 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

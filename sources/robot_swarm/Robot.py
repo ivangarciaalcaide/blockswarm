@@ -17,12 +17,13 @@ class Robot:
     its associated miner. It knows about its miner from its IP address and port.
     """
 
-    def __init__(self, peer_address="", miner_address="http://127.0.0.1:10000", id_robot=random.randint(1, 1001), pos_x=0, pos_y=0):
+    def __init__(self, peer_address="", miner_address="http://127.0.0.1:10000", id_robot=random.randint(1, 1001),
+                 pos_x=0, pos_y=0):
         self.miner_address = miner_address
         self.position = [pos_x, pos_y]  #: Position of the robot in the grid.
-        self.target = [0, 0]            #: Position to reach.
-        self.id_robot = id_robot        #: Robot instance id.
-        self.path = []                  #: Path to follow from current position to reach target.
+        self.target = [0, 0]  #: Position to reach.
+        self.id_robot = id_robot  #: Robot instance id.
+        self.path = []  #: Path to follow from current position to reach target.
         self.peer_address = peer_address
 
     def register_me(self):
@@ -48,8 +49,8 @@ class Robot:
         one is the X position and the second one is Y position.
         """
         self.path = []
-        x0, y0 = self.position[0], self.position[1]      # Initial point
-        x1, y1 = self.target[0], self.target[1]          # Target point
+        x0, y0 = self.position[0], self.position[1]  # Initial point
+        x1, y1 = self.target[0], self.target[1]  # Target point
 
         x_dist = abs(x1 - x0)
         y_dist = -abs(y1 - y0)
@@ -126,7 +127,7 @@ class Robot:
         print("Robot ID: " + str(self.id_robot))
         print("     Current Position: " + str(self.position))
         print("     Current Target  : " + str(self.target))
-        path_to_print = ("\n" + 23 * " ").join((str(self.path))[i:i+57] for i in range(0, len(str(self.path)), 57))
+        path_to_print = ("\n" + 23 * " ").join((str(self.path))[i:i + 57] for i in range(0, len(str(self.path)), 57))
         print("     Following Path  : " + path_to_print)
         print(80 * "-")
 
@@ -166,7 +167,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Robot launcher.")
     parser.add_argument("miner_address", help="Miner address for this robot (like http://example.com:9090).")
     parser.add_argument("-p", "--peer_address", help="Address to a known existing peer.", default="")
-    parser.add_argument("-i", "--id_robot", help="An integer for the Robot's ID.", type=int, default=random.randint(1, 1001))
+    parser.add_argument("-i", "--id_robot", help="An integer for the Robot's ID.", type=int,
+                        default=random.randint(1, 1001))
     args = parser.parse_args()
 
     robot = Robot(miner_address=args.miner_address)
@@ -177,10 +179,3 @@ if __name__ == '__main__':
         robot.id_robot = args.id_robot
 
     robot.start()
-
-
-
-
-
-
-
