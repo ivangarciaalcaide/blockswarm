@@ -10,4 +10,4 @@ This diagram represent the first approach to the core architecture. From here, r
 
 ![bs_blockswarm_class_diagram](https://www.lucidchart.com/publicSegments/view/aa51c053-49eb-489d-bfea-57aa96a980a8/image.png)  
 
-![bs_blockswarm_class_diagram (complete document)](https://www.lucidchart.com/documents/view/8a525eaf-4f90-4519-ac94-0513dabef76e)
+[bs_blockswarm_class_diagram (complete document)](https://www.lucidchart.com/documents/view/8a525eaf-4f90-4519-ac94-0513dabef76e)
