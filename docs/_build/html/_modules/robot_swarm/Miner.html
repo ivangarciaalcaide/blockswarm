@@ -1,0 +1,364 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>robot_swarm.Miner &mdash; bs 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> bs
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../general.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">sources</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">bs</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>robot_swarm.Miner</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for robot_swarm.Miner</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">Response</span>
+
+<span class="kn">from</span> <span class="nn">bs_blockchain.Block</span> <span class="k">import</span> <span class="n">Block</span>
+<span class="kn">from</span> <span class="nn">bs_blockchain.Blockchain</span> <span class="k">import</span> <span class="n">Blockchain</span>
+<span class="kn">from</span> <span class="nn">bs_blockchain.Transaction</span> <span class="k">import</span> <span class="n">Transaction</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Miner"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.Miner">[docs]</a><span class="k">class</span> <span class="nc">Miner</span><span class="p">(</span><span class="n">Blockchain</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">peers</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1">#: List of connected peers by connection address.</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s2">&quot;8.8.8.8&quot;</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect_address</span> <span class="o">=</span> <span class="s2">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">getsockname</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Miner.select_transactions_to_mine"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.Miner.select_transactions_to_mine">[docs]</a>    <span class="k">def</span> <span class="nf">select_transactions_to_mine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In L{miner} all remaining unconfirmed transactions are selected.</span>
+
+<span class="sd">        @return: Every unconfirmed transaction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unconfirmed_transactions</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="add_new_transaction"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.add_new_transaction">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/add_new_transaction&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">add_new_transaction</span><span class="p">():</span>
+
+    <span class="n">store_transaction</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">())</span>
+
+    <span class="k">for</span> <span class="n">peer</span> <span class="ow">in</span> <span class="n">miner</span><span class="o">.</span><span class="n">peers</span><span class="p">:</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">peer</span> <span class="o">+</span> <span class="s2">&quot;/register_transaction&quot;</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">}</span>
+        <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">&quot;Success&quot;</span><span class="p">,</span> <span class="mi">200</span></div>
+
+
+<div class="viewcode-block" id="register_transaction"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.register_transaction">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/register_transaction&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_transaction</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Includes a new transaction to the list of unconfirmed transactions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">store_transaction</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="s2">&quot;Success&quot;</span><span class="p">,</span> <span class="mi">200</span></div>
+
+
+<div class="viewcode-block" id="store_transaction"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.store_transaction">[docs]</a><span class="k">def</span> <span class="nf">store_transaction</span><span class="p">(</span><span class="n">tx_json</span><span class="p">):</span>
+    <span class="c1"># tx = Transaction(json.dumps(tx_json))</span>
+    <span class="k">if</span> <span class="s1">&#39;id_tx&#39;</span> <span class="ow">in</span> <span class="n">tx_json</span><span class="p">:</span>
+        <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tx_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)),</span> <span class="n">id_tx</span><span class="o">=</span><span class="n">tx_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id_tx&#39;</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tx_json</span><span class="p">))</span>
+    <span class="n">miner</span><span class="o">.</span><span class="n">add_new_transaction</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_pending_transactions"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.get_pending_transactions">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/get_pending_transactions&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">get_pending_transactions</span><span class="p">():</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">miner</span><span class="o">.</span><span class="n">unconfirmed_transactions</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_chain"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.get_chain">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/get_chain&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">get_chain</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">miner</span><span class="p">),</span> <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="shutdown_server"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.shutdown_server">[docs]</a><span class="k">def</span> <span class="nf">shutdown_server</span><span class="p">():</span>
+    <span class="c1"># TODO: This is a totally unsafe way of shutting down server.</span>
+    <span class="n">func</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;werkzeug.server.shutdown&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Not running with the Werkzeug Server&#39;</span><span class="p">)</span>
+    <span class="n">func</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="shutdown"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.shutdown">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/shutdown&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">shutdown</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Shutdowns Miner. It means, stop web service and terminate process.</span>
+<span class="sd">    @return: Warning string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">shutdown_server</span><span class="p">()</span>
+    <span class="k">return</span> <span class="s1">&#39;Server shutting down...&#39;</span></div>
+
+
+<div class="viewcode-block" id="get_peers"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.get_peers">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/get_peers&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">get_peers</span><span class="p">():</span>
+    <span class="c1"># return json.dumps(miner.peers)</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">miner</span><span class="o">.</span><span class="n">peers</span><span class="p">),</span> <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="register_me"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.register_me">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/register_me&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_me</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Announce this miner to the rest of miners. This way, this new robot get peered with the rest.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Requests to the known peer its set of peers so all of them got stored in the</span>
+    <span class="c1"># list of known peers.</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">}</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">miner</span><span class="o">.</span><span class="n">peers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/get_peers&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">json</span><span class="p">():</span>
+        <span class="n">miner</span><span class="o">.</span><span class="n">peers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+    <span class="c1"># As there is one peer at least that have created the chain, I&#39;ll accept his.</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">miner</span><span class="o">.</span><span class="n">peers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/get_chain&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+    <span class="n">blocks</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;chain&#39;</span><span class="p">]</span>
+    <span class="n">new_chain</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">blocks</span><span class="p">)):</span>
+        <span class="n">new_chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Block</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[],</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">new_chain</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">key</span><span class="p">,</span> <span class="n">blocks</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_chain</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">miner</span><span class="o">.</span><span class="n">is_valid_chain</span><span class="p">(</span><span class="n">new_chain</span><span class="p">):</span>
+        <span class="n">miner</span><span class="o">.</span><span class="n">chain</span> <span class="o">=</span> <span class="n">new_chain</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;Chain NOT valid !!!&quot;</span><span class="p">,</span> <span class="mi">200</span>
+
+    <span class="c1"># We&#39;ll take its unconfirmed transactions too.</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">miner</span><span class="o">.</span><span class="n">peers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/get_pending_transactions&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tx</span> <span class="ow">in</span> <span class="n">req</span><span class="o">.</span><span class="n">json</span><span class="p">():</span>
+        <span class="n">store_transaction</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span>
+
+    <span class="c1"># Tells to every known node to register me.</span>
+    <span class="n">my_info</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;peer&quot;</span><span class="p">:</span> <span class="n">miner</span><span class="o">.</span><span class="n">connect_address</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">peer</span> <span class="ow">in</span> <span class="n">miner</span><span class="o">.</span><span class="n">peers</span><span class="p">:</span>
+        <span class="n">peer_url</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">peer</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/register_peer&quot;</span>
+        <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">peer_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">my_info</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">&quot;Success&quot;</span><span class="p">,</span> <span class="mi">200</span></div>
+
+
+<div class="viewcode-block" id="register_peer"><a class="viewcode-back" href="../../robot_swarm.html#robot_swarm.Miner.register_peer">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/register_peer&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_peer</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Includes a new node to the list of peers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">peer_json</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="n">miner</span><span class="o">.</span><span class="n">peers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">peer_json</span><span class="p">[</span><span class="s1">&#39;peer&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="s2">&quot;Success&quot;</span><span class="p">,</span> <span class="mi">200</span></div>
+
+
+<span class="c1">##################</span>
+<span class="c1"># Miner Launcher #</span>
+<span class="c1">##################</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Miner launcher.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;port&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;port to bind (from 1024 to 65535).&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="c1"># Collects arguments and create miner setting it appropriately.</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+    <span class="n">miner</span> <span class="o">=</span> <span class="n">Miner</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">port</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">65536</span><span class="p">):</span>
+        <span class="c1"># Flask is ready to get up so, some extra info is printed (like external ip address).</span>
+        <span class="n">print_separator</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">miner</span><span class="o">.</span><span class="n">connect_address</span><span class="p">)</span> <span class="o">+</span> <span class="mi">19</span><span class="p">)</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">print_separator</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;* My IP address: &quot;</span> <span class="o">+</span> <span class="n">miner</span><span class="o">.</span><span class="n">connect_address</span> <span class="o">+</span> <span class="s2">&quot; *&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">print_separator</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Port must be between 1024 and 65535.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Not running as main application. Server won&#39;t go up.&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, bs
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

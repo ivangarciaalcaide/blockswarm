@@ -75,6 +75,12 @@ class Robot:
     def move_to_target(self, speed=1):
         """
         It changes current position of robot to the +I{speed} position in path and update path.
+        :param speed: Number of positions in the move.
+        :return: Nothing
+        """
+
+        """
+        It changes current position of robot to the +I{speed} position in path and update path.
 
         @param speed: Number of positions in the move.
         """

@@ -1,3 +1,5 @@
+from jinja2.utils import generate_lorem_ipsum
+
 from bs_blockchain.Block import Block
 from abc import abstractmethod
 import binascii
@@ -172,11 +174,11 @@ class Blockchain:
             return False
 
     def chain_to_file(self, filename, compress_level=0):
+
         """
         Saves the current chain into a file.
 
-        Depending on B{compress_level} it behaves in two different ways. B{compress_level} range is
-        from 0 to 9. By default, B{compress_level} is set to 0:
+        Depending on B{compress_level} it behaves in two different ways. B{compress_level} range is from 0 to 9. By default, B{compress_level} is set to 0:
             - "B{0}": No compress and JSON text file is generated I{UTF-8} encoded.
             - "B{1 - 9}": Compressed B{gzip} file is generated. B{1} is fastest and produces the least compression.
                             B{9} is slowest and produces the most compression. File will not be human readable.
