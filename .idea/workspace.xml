@@ -2,38 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="891a0c71-c8e0-4e3d-884a-f50a046e4d80" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/general.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/api-objects.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain-module.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain-pysrc.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain.Block-module.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain.Block-pysrc.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain.Block.Block-class.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain.Blockchain-module.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain.Blockchain-pysrc.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain.Blockchain.Blockchain-class.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain.Blockchain.MyBlockChain-class.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain.Transaction-module.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain.Transaction-pysrc.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/bs_blockchain.Transaction.Transaction-class.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/class-tree.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/crarr.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/epydoc.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/epydoc.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/frames.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/help.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/identifier-index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/module-tree.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/redirect.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/toc-bs_blockchain-module.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/toc-bs_blockchain.Block-module.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/toc-bs_blockchain.Blockchain-module.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/toc-bs_blockchain.Transaction-module.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/toc-everything.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/toc.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/bs_blockchain/Blockchain.py" beforeDir="false" afterPath="$PROJECT_DIR$/sources/bs_blockchain/Blockchain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/robot_swarm/Robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/sources/robot_swarm/Robot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/robot_swarm.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/robot_swarm.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/.buildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/.buildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/bs_blockchain/Block.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/bs_blockchain/Block.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/bs_blockchain/Blockchain.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/bs_blockchain/Blockchain.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/bs_blockchain/Transaction.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/bs_blockchain/Transaction.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/robot_swarm/Miner.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/robot_swarm/Miner.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/robot_swarm/Robot.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/robot_swarm/Robot.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/bs_blockchain.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/bs_blockchain.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/general.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/general.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/modules.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/modules.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/py-modindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/robot_swarm.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/robot_swarm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/conf.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -63,8 +52,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/conf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="80" column="30" selection-start-line="80" selection-start-column="30" selection-end-line="80" selection-end-column="30" />
+            <state relative-caret-position="-330">
+              <caret line="26" column="14" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
               <folding>
                 <element signature="e#564#573#0" expanded="true" />
               </folding>
@@ -73,6 +62,15 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/docs/Makefile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/index.rst">
           <provider selected="true" editor-type-id="restructured-text-editor" />
         </entry>
@@ -95,10 +93,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sources/bs_blockchain/Blockchain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
+            <state relative-caret-position="1650">
               <caret line="200" selection-start-line="200" selection-end-line="200" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
+                <element signature="e#6041#6925#1" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -128,7 +127,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
   </component>
@@ -160,15 +159,16 @@
         <option value="$PROJECT_DIR$/source/conf.py" />
         <option value="$PROJECT_DIR$/docs/source/index.rst" />
         <option value="$PROJECT_DIR$/docs/source/conf.py" />
-        <option value="$PROJECT_DIR$/sources/robot_swarm/Robot.py" />
         <option value="$PROJECT_DIR$/sources/robot_swarm/prueba.py" />
         <option value="$PROJECT_DIR$/docs/code.rst" />
         <option value="$PROJECT_DIR$/sources/robot_swarm/summary.rst" />
         <option value="$PROJECT_DIR$/sources/bs_blockchain/Blockchain.py" />
         <option value="$PROJECT_DIR$/docs/general.rst" />
-        <option value="$PROJECT_DIR$/docs/conf.py" />
         <option value="$PROJECT_DIR$/docs/modules.rst" />
         <option value="$PROJECT_DIR$/docs/index.rst" />
+        <option value="$PROJECT_DIR$/sources/robot_swarm/Robot.py" />
+        <option value="$PROJECT_DIR$/docs/conf.py" />
+        <option value="$PROJECT_DIR$/docs/Makefile" />
       </list>
     </option>
   </component>
@@ -190,7 +190,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -224,6 +223,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -256,7 +256,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.prueba">
+  <component name="RunManager" selected="Python.Robot_1">
     <configuration name="Miner_1" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="blockswarm" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -509,8 +509,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.prueba" />
         <item itemvalue="Python.Miner_1" />
+        <item itemvalue="Python.prueba" />
         <item itemvalue="Python.Miner_1" />
       </list>
     </recent_temporary>
@@ -556,7 +556,9 @@
       <workItem from="1556196357061" duration="2932000" />
       <workItem from="1556200061531" duration="2371000" />
       <workItem from="1556271005476" duration="9014000" />
-      <workItem from="1556281763695" duration="2240000" />
+      <workItem from="1556281763695" duration="2312000" />
+      <workItem from="1556362114458" duration="2907000" />
+      <workItem from="1556526459254" duration="773000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1553251768847</created>
@@ -761,11 +763,18 @@
       <option name="project" value="LOCAL" />
       <updated>1554479270596</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Testin sphinx.">
+      <created>1556294245052</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1556294245052</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="199650000" />
+    <option name="totallyTimeSpent" value="203402000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -779,12 +788,12 @@
   <component name="ToolWindowManager">
     <frame x="0" y="-1" width="1920" height="1040" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.84201956" visible="true" weight="0.2230523" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.84201956" visible="true" weight="0.22838847" />
       <window_info id="Structure" order="1" sideWeight="0.15798046" side_tool="true" weight="0.18356457" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49893278" weight="0.32969433" />
-      <window_info anchor="bottom" x="1539" y="314" width="1904" height="488" id="Run" order="2" sideWeight="0.50800425" side_tool="true" visible="true" weight="0.38318777" />
+      <window_info anchor="bottom" x="1539" y="314" width="1904" height="488" id="Run" order="2" sideWeight="0.5085379" side_tool="true" weight="0.38209608" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.2529349" weight="0.44541484" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -793,7 +802,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49786553" weight="0.3286026" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50213444" side_tool="true" weight="0.3286026" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49199572" visible="true" weight="0.38318777" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4914621" visible="true" weight="0.38209608" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="bottom" id="Concurrent Activities Diagram" order="13" sideWeight="0.4994664" weight="0.32969433" />
       <window_info anchor="bottom" id="Messages" order="14" />
@@ -849,7 +858,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added class diagram to README.md" />
     <MESSAGE value="Added copyright to README.md" />
     <MESSAGE value="Fix: Not updating chain if read chain from file is not valid." />
     <MESSAGE value="Updated class diagram." />
@@ -874,11 +882,14 @@
     <MESSAGE value="FIX RESTFUL Response for some methods." />
     <MESSAGE value="When a miner is included in the network, it synchronizes its chain and unconfirmed transactions." />
     <MESSAGE value="Re-formatted Robot.py file." />
-    <option name="LAST_COMMIT_MESSAGE" value="Re-formatted Robot.py file." />
+    <MESSAGE value="Testin sphinx." />
+    <option name="LAST_COMMIT_MESSAGE" value="Testin sphinx." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/blockswarm$Miner_1.coverage" NAME="Miner_1 Coverage Results" MODIFIED="1556363191612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sources/robot_swarm" />
     <SUITE FILE_PATH="coverage/blockswarm$prueba.coverage" NAME="prueba Coverage Results" MODIFIED="1556276033827" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sources/robot_swarm" />
     <SUITE FILE_PATH="coverage/blockswarm$sphinx_gen.coverage" NAME="sphinx_gen Coverage Results" MODIFIED="1556197346069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/blockswarm$Robot_1.coverage" NAME="Robot_1 Coverage Results" MODIFIED="1556363091904" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sources/robot_swarm" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
@@ -949,9 +960,6 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/sources/miner_run.py" />
-    <entry file="file://$PROJECT_DIR$/chain_3.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/bs_blockchain/Block.py" />
     <entry file="file://$PROJECT_DIR$/test.py" />
     <entry file="file://$PROJECT_DIR$/bs_blockchain/Transaction.py" />
@@ -1022,9 +1030,27 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/prueba.py" />
+    <entry file="file://$PROJECT_DIR$/docs/summary.rst" />
+    <entry file="file://$PROJECT_DIR$/docs/code.rst" />
+    <entry file="file://$PROJECT_DIR$/docs/bs_blockchain.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sources/bs_blockchain/Block.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#593#848#1" expanded="true" />
+            <element signature="e#962#1176#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/test.rst" />
     <entry file="file://$PROJECT_DIR$/sources/robot_swarm/Miner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
+        <state relative-caret-position="-429">
           <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
           <folding>
             <element signature="e#321#608#0" />
@@ -1047,27 +1073,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/summary.rst" />
-    <entry file="file://$PROJECT_DIR$/docs/code.rst" />
-    <entry file="file://$PROJECT_DIR$/docs/bs_blockchain.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sources/bs_blockchain/Block.py">
+    <entry file="file://$PROJECT_DIR$/chain_3.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#593#848#1" expanded="true" />
-            <element signature="e#962#1176#1" expanded="true" />
-          </folding>
+        <state relative-caret-position="435">
+          <caret line="29" column="27" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="29" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sources/robot_swarm/Robot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="80" selection-start-line="80" selection-end-line="80" />
+        <state relative-caret-position="232">
+          <caret line="163" column="36" selection-start-line="163" selection-start-column="36" selection-end-line="163" selection-end-column="36" />
           <folding>
             <element signature="e#133#569#1" expanded="true" />
             <element signature="e#1713#2658#0" />
@@ -1078,40 +1094,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sources/bs_blockchain/Blockchain.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="200" selection-start-line="200" selection-end-line="200" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/general.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/conf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="80" column="30" selection-start-line="80" selection-start-column="30" selection-end-line="80" selection-end-column="30" />
+        <state relative-caret-position="-330">
+          <caret line="26" column="14" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
           <folding>
             <element signature="e#564#573#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/test.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/robot_swarm.rst">
+    <entry file="file://$PROJECT_DIR$/docs/index.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/modules.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/index.rst">
+    <entry file="file://$PROJECT_DIR$/docs/robot_swarm.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/general.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sources/bs_blockchain/Blockchain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1650">
+          <caret line="200" selection-start-line="200" selection-end-line="200" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+            <element signature="e#6041#6925#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+        </state>
+      </provider>
     </entry>
   </component>
 </project>

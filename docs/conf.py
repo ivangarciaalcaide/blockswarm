@@ -19,12 +19,12 @@ sys.path.insert(0, os.path.abspath('../sources/'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'bs'
-copyright = '2019, bs'
-author = 'bs'
+project = 'Blockswarm'
+copyright = '2019 MISTI Spain - ETSISI Group'
+author = 'MISTI Spain - ETSISI Group'
 
 # The short X.Y version
-version = ''
+version = '0.1'
 # The full version, including alpha/beta/rc tags
 release = '0.1'
 
