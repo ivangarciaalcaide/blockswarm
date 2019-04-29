@@ -1,0 +1,450 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>bs_blockchain.Blockchain &mdash; Blockswarm 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Blockswarm
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../general.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">sources</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Blockswarm</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>bs_blockchain.Blockchain</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for bs_blockchain.Blockchain</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">jinja2.utils</span> <span class="k">import</span> <span class="n">generate_lorem_ipsum</span>
+
+<span class="kn">from</span> <span class="nn">bs_blockchain.Block</span> <span class="k">import</span> <span class="n">Block</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">abstractmethod</span>
+<span class="kn">import</span> <span class="nn">binascii</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+
+<div class="viewcode-block" id="Blockchain"><a class="viewcode-back" href="../../bs_blockchain.html#bs_blockchain.Blockchain.Blockchain">[docs]</a><span class="k">class</span> <span class="nc">Blockchain</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unconfirmed_transactions</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1">#: Set of transactions wating to be mined.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chain</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1">#: List og blocks that conforms the block chain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pow_difficulty</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1">#: Difficulty of PoW</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_genesis_block</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Blockchain.create_genesis_block"><a class="viewcode-back" href="../../bs_blockchain.html#bs_blockchain.Blockchain.Blockchain.create_genesis_block">[docs]</a>    <span class="k">def</span> <span class="nf">create_genesis_block</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates first block of the chain and append it to the chain.</span>
+
+<span class="sd">        Considerations:</span>
+<span class="sd">            - It is indexed at position 0.</span>
+<span class="sd">            - As there is not a previous block, previous_hash is set to &quot;0&quot;.</span>
+<span class="sd">            - As there are not transactions to mine yet, transaction list is empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">genesis_block</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[],</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span>
+        <span class="n">genesis_block</span><span class="o">.</span><span class="n">hash</span> <span class="o">=</span> <span class="n">genesis_block</span><span class="o">.</span><span class="n">calculate_hash</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">genesis_block</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Blockchain.proof_of_work"><a class="viewcode-back" href="../../bs_blockchain.html#bs_blockchain.Blockchain.Blockchain.proof_of_work">[docs]</a>    <span class="k">def</span> <span class="nf">proof_of_work</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Proof of work implementation.</span>
+
+<span class="sd">        It takes a block and sets its nonce to 0. Then, calculates its hash from</span>
+<span class="sd">        L{Block.get_string_to_hash(self)&lt;Block.get_string_to_hash(self)&gt;}. This hash must</span>
+<span class="sd">        end with, at least, as many &#39;0&#39;s characters as indicated in</span>
+<span class="sd">        L{pow_difficulty} to success. I hash doesn&#39;t accomplish PoW, nonce value is</span>
+<span class="sd">        incremented by 1 and it starts over.</span>
+
+<span class="sd">        Once nonce is found, block&#39;s hash is updated.</span>
+
+<span class="sd">        @param block: Block over the proof of work is executed.</span>
+<span class="sd">        # @return: String with the hash that accomplish the PoW.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">block</span><span class="o">.</span><span class="n">nonce</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">current_hash</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">calculate_hash</span><span class="p">()</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">current_hash</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;0&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pow_difficulty</span><span class="p">):</span>
+            <span class="n">block</span><span class="o">.</span><span class="n">nonce</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">current_hash</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">calculate_hash</span><span class="p">()</span>
+
+        <span class="n">block</span><span class="o">.</span><span class="n">hash</span> <span class="o">=</span> <span class="n">current_hash</span></div>
+
+<div class="viewcode-block" id="Blockchain.add_new_transaction"><a class="viewcode-back" href="../../bs_blockchain.html#bs_blockchain.Blockchain.Blockchain.add_new_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">add_new_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Insert a L{Transaction} at the end of L{unconfirmed transactions&lt;unconfirmed_transactions&gt;}</span>
+<span class="sd">        list.</span>
+
+<span class="sd">        @param transaction: L{Transaction} object to be inserted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unconfirmed_transactions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">transaction</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Blockchain.select_transactions_to_mine"><a class="viewcode-back" href="../../bs_blockchain.html#bs_blockchain.Blockchain.Blockchain.select_transactions_to_mine">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">select_transactions_to_mine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        It selects what transactions to be mined in a given block.</span>
+
+<span class="sd">        @return: A list with selected L{transactions&lt;Transaction&gt;}</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="Blockchain.mine"><a class="viewcode-back" href="../../bs_blockchain.html#bs_blockchain.Blockchain.Blockchain.mine">[docs]</a>    <span class="k">def</span> <span class="nf">mine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allow_empty_transactions</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mines a new block and add it to the chain.</span>
+
+<span class="sd">        Mining steps:</span>
+<span class="sd">            1. Selects transactions to be incorporated to the block.</span>
+<span class="sd">            2. Creates a block with current information available</span>
+<span class="sd">                - Selected transactions</span>
+<span class="sd">                - Current time for timestamp</span>
+<span class="sd">                - Previous hash filled with last block hash.</span>
+<span class="sd">            3. Fills hash field with proof of work.</span>
+<span class="sd">            4. Removes mined transactions from L{unconfirmed_transactions} list.</span>
+
+
+<span class="sd">        @type allow_empty_transactions: boolean</span>
+<span class="sd">        @param allow_empty_transactions: True, mine the block even if transaction&#39;s block list is empty.</span>
+
+<span class="sd">        @return: False, If block could not be mined. The mined block, otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">selected_transactions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_transactions_to_mine</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">selected_transactions</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">allow_empty_transactions</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">last_block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_block</span>
+
+        <span class="n">new_block</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span>
+            <span class="n">index</span><span class="o">=</span><span class="n">last_block</span><span class="o">.</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">transactions</span><span class="o">=</span><span class="n">selected_transactions</span><span class="p">,</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
+            <span class="n">previous_hash</span><span class="o">=</span><span class="n">last_block</span><span class="o">.</span><span class="n">hash</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">proof_of_work</span><span class="p">(</span><span class="n">new_block</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_block</span><span class="p">(</span><span class="n">new_block</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">new_block</span><span class="o">.</span><span class="n">transactions</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unconfirmed_transactions</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">unconfirmed_transactions</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="Blockchain.is_valid_block"><a class="viewcode-back" href="../../bs_blockchain.html#bs_blockchain.Blockchain.Blockchain.is_valid_block">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">chain</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the block is a valid one.</span>
+
+<span class="sd">        To be a valid block it has to accomplish following criteria:</span>
+<span class="sd">            1. Its previous hash must be the same as previous block hash.</span>
+<span class="sd">            2. Its index must be the following from previous block.</span>
+<span class="sd">            3. Its hash must end with at least L{pow_difficulty} numbers of &#39;0&#39;s</span>
+<span class="sd">            4. Its hash must be the same than calculated hash.</span>
+
+<span class="sd">        @param chain: Chain where the block is. If empty, it takes its own chain.</span>
+<span class="sd">        @param block: Block to be checked.</span>
+<span class="sd">        @return: False if not valid. True, otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">chain</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">chain</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">chain</span><span class="p">:</span>
+            <span class="n">chain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chain</span>
+
+        <span class="n">previous_block</span> <span class="o">=</span> <span class="n">chain</span><span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">previous_block</span><span class="o">.</span><span class="n">hash</span> <span class="o">!=</span> <span class="n">block</span><span class="o">.</span><span class="n">previous_hash</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">previous_block</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">block</span><span class="o">.</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">block</span><span class="o">.</span><span class="n">hash</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;0&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pow_difficulty</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">hash</span> <span class="o">!=</span> <span class="n">block</span><span class="o">.</span><span class="n">calculate_hash</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Blockchain.is_valid_chain"><a class="viewcode-back" href="../../bs_blockchain.html#bs_blockchain.Blockchain.Blockchain.is_valid_chain">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_chain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chain</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        It checks if every block in the chain L{is_valid_block}.</span>
+
+<span class="sd">        @param chain: The chain to check</span>
+<span class="sd">        @return: True, if it is valid. False, otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_valid_block</span><span class="p">(</span><span class="n">chain</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">chain</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_valid_block</span><span class="p">(</span><span class="n">chain</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">chain</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Blockchain.add_block"><a class="viewcode-back" href="../../bs_blockchain.html#bs_blockchain.Blockchain.Blockchain.add_block">[docs]</a>    <span class="k">def</span> <span class="nf">add_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_block</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append a new block to the chain after checking its correctness.</span>
+
+<span class="sd">        @param new_block: New block to be added.</span>
+<span class="sd">        @return: False, if block couldn&#39;t be added. The new block, otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_valid_block</span><span class="p">(</span><span class="n">new_block</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_block</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">new_block</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Blockchain.chain_to_file"><a class="viewcode-back" href="../../bs_blockchain.html#bs_blockchain.Blockchain.Blockchain.chain_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">chain_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">compress_level</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the current chain into a file.</span>
+
+<span class="sd">        Depending on B{compress_level} it behaves in two different ways. B{compress_level} range is from 0 to 9. By default, B{compress_level} is set to 0:</span>
+<span class="sd">            - &quot;B{0}&quot;: No compress and JSON text file is generated I{UTF-8} encoded.</span>
+<span class="sd">            - &quot;B{1 - 9}&quot;: Compressed B{gzip} file is generated. B{1} is fastest and produces the least compression.</span>
+<span class="sd">                            B{9} is slowest and produces the most compression. File will not be human readable.</span>
+
+<span class="sd">        Working with text files is much harder and takes much longer than with binary (compressed) files.</span>
+
+<span class="sd">        @type filename: String</span>
+<span class="sd">        @param filename: Desired name for the file. (Path is relative to working dir)</span>
+<span class="sd">        @type compress_level: int</span>
+<span class="sd">        @param compress_level: Desired compress level or, 0, produces a JSON text file (UTF-8).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">compress_level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">,</span> <span class="n">compresslevel</span><span class="o">=</span><span class="n">compress_level</span><span class="p">)</span> <span class="k">as</span> <span class="n">gzip_file</span><span class="p">:</span>
+                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="n">gzip_file</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">compress_level</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+                <span class="n">json_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Blockchain.chain_from_file"><a class="viewcode-back" href="../../bs_blockchain.html#bs_blockchain.Blockchain.Blockchain.chain_from_file">[docs]</a>    <span class="k">def</span> <span class="nf">chain_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads a file that contains a chain and store it as its chain if it is valid.</span>
+
+<span class="sd">        @param filename: Name of the file wher the chain is stored. (Path is relative to working dir)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">checking_file</span><span class="p">:</span>
+            <span class="n">is_gzip_file</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">checking_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;1f8b&#39;</span>
+
+        <span class="k">if</span> <span class="n">is_gzip_file</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">gzip_file</span><span class="p">:</span>
+                <span class="n">new_chain</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">gzip_file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+                <span class="n">blocks</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)[</span><span class="s1">&#39;chain&#39;</span><span class="p">]</span>
+                <span class="n">new_chain</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">blocks</span><span class="p">)):</span>
+                    <span class="n">new_chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Block</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[],</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">new_chain</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">key</span><span class="p">,</span> <span class="n">blocks</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_valid_chain</span><span class="p">(</span><span class="n">new_chain</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chain</span> <span class="o">=</span> <span class="n">new_chain</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">last_block</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reference to the last block of the chain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chain</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;{&quot;chain&quot; : [&#39;</span>
+        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chain</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="n">block</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="s2">&quot;]}&quot;</span>
+        <span class="n">mi_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">mi_json</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+
+
+<span class="c1"># class MyBlockChain(Blockchain):</span>
+<span class="c1">#</span>
+<span class="c1">#     def __init__(self):</span>
+<span class="c1">#         super().__init__()</span>
+<span class="c1">#</span>
+<span class="c1">#     def select_transactions_to_mine(self):</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         In L{MyBlockChain} all remaining unconfirmed transactions are selected.</span>
+<span class="c1">#</span>
+<span class="c1">#         @return: Every unconfirmed transaction.</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         return self.unconfirmed_transactions.copy()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019 MISTI Spain - ETSISI Group
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
