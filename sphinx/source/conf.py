@@ -111,6 +111,8 @@ htmlhelp_basename = 'Blockswarmdoc'
 
 html_show_sourcelink = False
 
+html_show_sphinx = False
+
 
 # -- Options for LaTeX output ------------------------------------------------
 
