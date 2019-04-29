@@ -19,7 +19,7 @@ class Block:
         It dumps it's fields values (state of the object) into an String and gets
         the sha256 of it. The own hash is not included in this operation.
 
-        @return: String representing the hash.
+        :return: String representing the hash.
         """
         return sha256(self.get_string_to_hash().encode()).hexdigest()
 
@@ -28,7 +28,7 @@ class Block:
         Forms the string from the state of the object to be hashed. It is a list of
         all attributes and their current value except block's own hash.
 
-        @return: The string to be hashed.
+        :return: The string to be hashed.
         """
         my_json = json.loads(json.dumps(self.__dict__))
 
