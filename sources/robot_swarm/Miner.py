@@ -23,9 +23,9 @@ class Miner(Blockchain):
 
     def select_transactions_to_mine(self):
         """
-        In L{miner} all remaining unconfirmed transactions are selected.
+        All remaining unconfirmed transactions are selected.
 
-        @return: Every unconfirmed transaction.
+        :return: Every unconfirmed transaction.
         """
         return self.unconfirmed_transactions.copy()
 
