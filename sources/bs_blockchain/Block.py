@@ -4,9 +4,9 @@ import json
 
 class Block:
 
-    def __init__(self, index, transactions, timestamp, previous_hash, nonce=0):
+    def __init__(self, index, transactions, timestamp, previous_hash, nonce=0, hash_pre="0"):
         self.index = index  #: Position number in the chain (starting from 0).
-        self.hash = 0  #: Hash of this block.
+        self.hash = hash_pre  #: Hash of this block.
         self.transactions = transactions  #: List of transactions in the block.
         self.timestamp = timestamp  #: Block creation time.
         self.previous_hash = previous_hash  #: Hash of previous block in the chain.

@@ -30,9 +30,86 @@ class Miner(Blockchain):
         return self.unconfirmed_transactions.copy()
 
 
+def consensus():
+    my_len = len(miner.chain)
+
+    for peer in miner.peers:
+        url = peer + "/get_chain_length"
+        headers = {'Content-Type': "application/json"}
+        his_len = int((requests.post(url, headers=headers)).json())
+
+        if int(his_len) > my_len:
+            miner.chain = []  # his_chain
+            # TODO: Quitar traza
+            print("La cadena de " + url + " es más larga")
+
+            # blocks = requests.post(url, headers=headers)).json()
+
+            # new_chain = []
+            # for x in range(0, len(blocks)):
+            #     new_chain.append(Block(0, [], 0, '0'))
+            #     for key in blocks[x]:
+            #         setattr(new_chain[x], key, blocks[x][key])
+
+
+@app.route('/add_block', methods=['POST'])
+def add_block():
+    block_json = request.get_json()
+    block = miner.add_block(Block(
+        index=block_json["index"],
+        hash_pre=block_json["hash"],
+        transactions=block_json["transactions"],
+        timestamp=block_json["timestamp"],
+        previous_hash=block_json["previous_hash"],
+        nonce=block_json["nonce"]))
+
+    if block:
+        print("HE METIDO EL BLOQUE")
+        # TODO Si meto el bloque, no tengo que minar las transacciones que contenga, las borro de txs unconfirmed.
+
+        return "Success", 200
+    else:
+        print("PASANDO")
+        return "Not valid block", 200
+
+    # block_txs = []
+    # for tx in block.transactions:
+    #     block_txs.append(Transaction(
+    #         id_tx=tx["id_tx"],
+    #         data=json.dumps(tx["data"])
+    #     ))
+    #
+    # # TODO: Quitar traza
+    # print("NEW BK: " + str(type(block)))
+    # print(block)
+    # for tx in block_txs:
+    #     print("NEW TX: " + str(type(tx)))
+    #     print(tx)
+    #
+    # return "Success", 200
+
+
+@app.route('/mine', methods=['POST', 'GET'])
+def mine():
+    # consensus()
+    block = miner.mine()
+    for peer in miner.peers:
+        url = peer + "/add_block"
+        headers = {'Content-Type': "application/json"}
+        datos = str(block)
+        requests.post(url, data=datos, headers=headers)
+
+    return "Success", 200
+
+
+@app.route('/get_chain_length', methods=['POST', 'GET'])
+def get_chain_length():
+    result = json.dumps(str(len(miner.chain)))
+    return Response(result, status=200, content_type='application/json')
+
+
 @app.route('/add_new_transaction', methods=['POST'])
 def add_new_transaction():
-
     store_transaction(request.get_json())
 
     for peer in miner.peers:
@@ -168,7 +245,7 @@ if __name__ == '__main__':
         print("\n" + print_separator)
         print("* My IP address: " + miner.connect_address + " *")
         print(print_separator + "\n")
-        app.run('0.0.0.0', port)
+        app.run('0.0.0.0', port, threaded=True)
     else:
         print("Port must be between 1024 and 65535.")
 else:

@@ -1,4 +1,7 @@
+import threading
 import sys
+from time import sleep
+
 from robot_swarm.Robot import Robot
 
 print("\n----------")
@@ -12,7 +15,13 @@ robots = [
     Robot(peer_address="http://127.0.0.1:20000", miner_address="http://127.0.0.1:40000", id_robot=4, pos_x=4, pos_y=4)
 ]
 
-robots[0].start()
+t1 = threading.Thread(target=robots[0].start)
+t2 = threading.Thread(target=robots[1].start)
+
+t2.start()
+t1.start()
+
+sleep(1000)
 
 sys.exit()
 

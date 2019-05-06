@@ -16,4 +16,5 @@ class Transaction:
         self.data = json.loads(data)  #: Custom data for transaction in **JSON** format
 
     def __str__(self):
-        return json.dumps(self.__dict__)
+        # return json.dumps(self.__dict__)
+        return json.dumps(self.__dict__, indent=4, sort_keys=True)

@@ -154,6 +154,7 @@ class Robot:
 
         self.print_info()
         self.add_new_transaction()
+        requests.get(self.miner_address + "/mine")
 
         while len(self.path) > 1:
             i = random.randint(1, 10)
@@ -162,6 +163,7 @@ class Robot:
             print("Positions to target: " + str(len(self.path)))
             self.print_info()
             self.add_new_transaction()
+            requests.get(self.miner_address + "/mine")
 
         sleep(1000)
 
