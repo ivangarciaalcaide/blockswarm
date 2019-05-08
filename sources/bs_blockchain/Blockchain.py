@@ -131,20 +131,14 @@ class Blockchain:
             chain = self.chain
 
         if self.last_block.index == block.index - 1:
-            # TODO: Quitar traza
-            print("Mi last block index: " + str(self.last_block.index) + " y el index a insertar: " + str(block.index))
-            print("PUEDE VALER")
             previous_block = chain[block.index - 1]
 
             if previous_block.hash != block.previous_hash:
-                print("Previous hash es igual")
                 return False
 
             if not block.hash.endswith('0' * self.pow_difficulty):
-                print("Termina con '" + str(self.pow_difficulty) + "' ceros, VA BIEN.")
                 return False
 
-            print(block.hash + " =?= " + block.calculate_hash())
             if block.hash != block.calculate_hash():
                 return False
         else:

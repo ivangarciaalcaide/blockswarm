@@ -165,6 +165,7 @@ class Robot:
             self.add_new_transaction()
             requests.get(self.miner_address + "/mine")
 
+        print("---------------\n     FIN\n---------------")
         sleep(1000)
 
 

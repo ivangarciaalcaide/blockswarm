@@ -64,32 +64,27 @@ def add_block():
         nonce=block_json["nonce"]))
 
     if block:
-        print("HE METIDO EL BLOQUE")
-        # TODO Si meto el bloque, no tengo que minar las transacciones que contenga, las borro de txs unconfirmed.
+        # If new block is accepted, its txs are deleted from unconfirmed transactions.
+        block_txs = []
+        x = 0
+        for tx in block.transactions:
+            block_txs.append(Transaction(
+                id_tx=tx["id_tx"],
+                data=json.dumps(tx["data"])
+            ))
+            print("Block's (" + str(block.index) + ") TX_ID " + str(x) + ": " + str(block_txs[x].id_tx))
+            x += 1
 
+        for tx in block_txs:
+            for tx_unconfirmed in miner.unconfirmed_transactions:
+                if tx_unconfirmed['id_tx'] == tx.id_tx:
+                    miner.unconfirmed_transactions.remove(tx_unconfirmed)
         return "Success", 200
     else:
-        print("PASANDO")
-        return "Not valid block", 200
-
-    # block_txs = []
-    # for tx in block.transactions:
-    #     block_txs.append(Transaction(
-    #         id_tx=tx["id_tx"],
-    #         data=json.dumps(tx["data"])
-    #     ))
-    #
-    # # TODO: Quitar traza
-    # print("NEW BK: " + str(type(block)))
-    # print(block)
-    # for tx in block_txs:
-    #     print("NEW TX: " + str(type(tx)))
-    #     print(tx)
-    #
-    # return "Success", 200
+        return "Not valid block", 401
 
 
-@app.route('/mine', methods=['POST', 'GET'])
+@app.route('/mine', methods=['GET'])
 def mine():
     # consensus()
     block = miner.mine()
@@ -102,7 +97,7 @@ def mine():
     return "Success", 200
 
 
-@app.route('/get_chain_length', methods=['POST', 'GET'])
+@app.route('/get_chain_length', methods=['GET'])
 def get_chain_length():
     result = json.dumps(str(len(miner.chain)))
     return Response(result, status=200, content_type='application/json')
@@ -110,6 +105,13 @@ def get_chain_length():
 
 @app.route('/add_new_transaction', methods=['POST'])
 def add_new_transaction():
+    """
+    When a transaction is created by a process, it tells its miner to add the new transaction through calling
+    this method. It will add the new transaction into :py:attr:Blockchain.unconfirmed_transactions: queue and will
+    annouce it to the rest of peers for them to register it also.
+
+    :return: "Success", 200
+    """
     store_transaction(request.get_json())
 
     for peer in miner.peers:
@@ -123,7 +125,7 @@ def add_new_transaction():
 @app.route('/register_transaction', methods=['POST'])
 def register_transaction():
     """
-    Includes a new transaction to the list of unconfirmed transactions.
+    Includes a new transaction to the list of py:attr:Blockchain.unconfirmed_transactions:.
     """
     store_transaction(request.get_json())
 
@@ -139,14 +141,24 @@ def store_transaction(tx_json):
     miner.add_new_transaction(tx)
 
 
-@app.route('/get_pending_transactions', methods=['POST', 'GET'])
+@app.route('/get_pending_transactions', methods=['GET'])
 def get_pending_transactions():
+    """
+    Returns a list of the :py:attr:Blockchain.unconfirmed_transactions: that are waiting to be mined.
+
+    :return: List of transactions ready to be mined.
+    """
     result = json.dumps(miner.unconfirmed_transactions, indent=4)
     return Response(result, status=200, content_type='application/json')
 
 
-@app.route('/get_chain', methods=['POST', 'GET'])
+@app.route('/get_chain', methods=['GET'])
 def get_chain():
+    """
+    Retruns the whole chain stored by the miner.
+
+    :return: Chain of the miner.
+    """
     return Response(str(miner), status=200, content_type='application/json')
 
 
@@ -168,28 +180,35 @@ def shutdown():
     return 'Server shutting down...'
 
 
-@app.route('/get_peers', methods=['POST', 'GET'])
+@app.route('/get_peers', methods=['GET'])
 def get_peers():
-    # return json.dumps(miner.peers)
+    """
+    Returns the list of peers known by the miner.
+
+    :return: List of miner's peers.
+    """
     return Response(json.dumps(miner.peers), status=200, content_type='application/json')
 
 
 @app.route('/register_me', methods=['POST'])
 def register_me():
     """
-    Announce this miner to the rest of miners. This way, this new robot get peered with the rest.
+    Announce this miner to the rest of miners. This way, this new process/miner get peered with the rest.
+
+    :return: "Success", 200 or "Chain NOT valid !!!", 401
     """
 
     # Requests to the known peer its set of peers so all of them got stored in the
     # list of known peers.
     headers = {'Content-Type': "application/json"}
-    req = requests.post(miner.peers[0] + "/get_peers", headers=headers)
+    req = requests.get(miner.peers[0] + "/get_peers", headers=headers)
     if req.json():
         miner.peers.extend(req.json())
 
     # As there is one peer at least that have created the chain, I'll accept his.
-    req = requests.post(miner.peers[0] + "/get_chain", headers=headers)
-
+    # TODO Instead of requesting the chain of the first peer, it can be requested the longest chain or obtain it from
+    #   whatever consensus is implemented.
+    req = requests.get(miner.peers[0] + "/get_chain", headers=headers)
     blocks = req.json()['chain']
     new_chain = []
     for x in range(0, len(blocks)):
@@ -200,10 +219,10 @@ def register_me():
     if len(new_chain) == 1 or miner.is_valid_chain(new_chain):
         miner.chain = new_chain
     else:
-        return "Chain NOT valid !!!", 200
+        return "Chain NOT valid !!!", 401
 
     # We'll take its unconfirmed transactions too.
-    req = requests.post(miner.peers[0] + "/get_pending_transactions", headers=headers)
+    req = requests.get(miner.peers[0] + "/get_pending_transactions", headers=headers)
     for tx in req.json():
         store_transaction(tx)
 
@@ -220,6 +239,8 @@ def register_me():
 def register_peer():
     """
     Includes a new node to the list of peers.
+
+    :return: "Success", 200
     """
     peer_json = request.get_json()
     miner.peers.append(peer_json['peer'])
