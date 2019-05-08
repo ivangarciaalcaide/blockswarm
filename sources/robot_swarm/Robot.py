@@ -140,7 +140,8 @@ class Robot:
     def start(self):
         """
         The Robot starts to do whatever it has to do.
-        @return:
+
+        :return: Nothing
         """
         # First, if I know a peer, I register my self into the network.
         if self.peer_address:
