@@ -4,6 +4,8 @@ import json
 import time
 import gzip
 import pickle
+from threading import Thread
+
 from bs_blockchain.Block import Block
 
 
@@ -69,6 +71,12 @@ class Blockchain:
         """
 
     def mine(self, allow_empty_transactions=False):
+        t = Thread(target=self.mine_process, args=[allow_empty_transactions], name="mining")
+        t.setDaemon(True)
+        t.start()
+        return self.mine_process(allow_empty_transactions)
+
+    def mine_process(self, allow_empty_transactions=False):
         """
         Mines a new block and add it to the chain.
 
@@ -130,7 +138,8 @@ class Blockchain:
         if not chain:
             chain = self.chain
 
-        if self.last_block.index == block.index - 1:
+        # if chain[-1].index == block.index - 1:
+        if (block.index - 1) < len(chain):
             previous_block = chain[block.index - 1]
 
             if previous_block.hash != block.previous_hash:
@@ -141,8 +150,8 @@ class Blockchain:
 
             if block.hash != block.calculate_hash():
                 return False
-        else:
-            return False
+            # else:
+            #    return False
 
         return True
 
@@ -168,7 +177,7 @@ class Blockchain:
         :param new_block: New block to be added.
         :return: False, if block couldn't be added. The new block, otherwise.
         """
-        if self.is_valid_block(new_block):
+        if self.is_valid_block(new_block, self.chain) and new_block.index == len(self.chain):
             self.chain.append(new_block)
             return new_block
         else:

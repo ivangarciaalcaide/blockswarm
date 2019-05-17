@@ -78,12 +78,6 @@ class Robot:
         :param speed: Number of positions in the move.
         :return: Nothing
         """
-
-        """
-        It changes current position of robot to the +I{speed} position in path and update path.
-
-        @param speed: Number of positions in the move.
-        """
         if not self.path:
             return False
         else:
@@ -151,10 +145,11 @@ class Robot:
         # Every N seconds, robot will move towards target. Speed will be the number
         # of steps made in the movement, it is the number of positions walked.
         # Then, it recalculates the path and moves again till target is reached.
-        self.set_target(20, 25)
+        self.set_target(10, 15)
 
         self.print_info()
-        self.add_new_transaction()
+        txs = 1
+        otro_result = "\nRobot [" + str(self.id_robot) + "]: " + str(self.add_new_transaction()) + "\n"
         requests.get(self.miner_address + "/mine")
 
         while len(self.path) > 1:
@@ -163,10 +158,17 @@ class Robot:
             self.move_to_target(i)
             print("Positions to target: " + str(len(self.path)))
             self.print_info()
-            self.add_new_transaction()
+            txs += 1
+
+            otro_result += str(self.add_new_transaction()) + "\n"
+            sleep(1)
             requests.get(self.miner_address + "/mine")
 
-        print("---------------\n     FIN\n---------------")
+        requests.get(self.miner_address + "/mine")
+        print("------------------------------------------")
+        print("     FIN Robot " + str(self.id_robot) + " (tx enviadas en total: " + str(txs) + ")")
+        print("      " + otro_result)
+        print("------------------------------------------")
         sleep(1000)
 
 

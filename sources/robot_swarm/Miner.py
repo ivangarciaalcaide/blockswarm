@@ -1,6 +1,9 @@
 import json
+import random
 import socket
 import argparse
+from time import sleep
+
 import requests
 from flask import Flask, request, Response
 
@@ -30,26 +33,79 @@ class Miner(Blockchain):
         return self.unconfirmed_transactions.copy()
 
 
+@app.route('/check_repeated_txs', methods=['GET'])
+def check_repeated_txs():
+    mined_txs = []
+    for x in miner.chain:
+        for tx in x.transactions:
+            mined_txs.append(tx['id_tx'])
+
+    seen = set()
+    repeated = []
+    for x in mined_txs:
+        if x not in seen:
+            seen.add(x)
+        else:
+            repeated.append(x)
+
+    result = "TXs Minadas en total: " + str(len(mined_txs)) + "<br>"
+    result += "TXs Repetidas: " + str(len(repeated)) + "<br>"
+    result += "<h3>REPETIDOS</h3>"
+    for i in repeated:
+        result += "<br>" + str(i)
+
+    result += "<h3>TODOS</h3>"
+    for i in mined_txs:
+        result += "<br>" + str(i)
+
+    return result, 200
+
+
 def consensus():
-    my_len = len(miner.chain)
+    """
+    Longest chain consensus algorithm.
 
-    for peer in miner.peers:
-        url = peer + "/get_chain_length"
+    :return: True if my chain has been modified. False, otherwise.
+    """
+    peer_with_longest_chain = 0
+    longest_chain = len(miner.chain)
+
+    for x in range(0, len(miner.peers)):
+        url = miner.peers[x] + "/get_chain_length"
         headers = {'Content-Type': "application/json"}
-        his_len = int((requests.post(url, headers=headers)).json())
+        his_len = int((requests.get(url, headers=headers)).json())
 
-        if int(his_len) > my_len:
-            miner.chain = []  # his_chain
-            # TODO: Quitar traza
-            print("La cadena de " + url + " es más larga")
+        if his_len > longest_chain:
+            longest_chain = his_len
+            peer_with_longest_chain = x
 
-            # blocks = requests.post(url, headers=headers)).json()
+    if longest_chain > len(miner.chain):
+        old_mined_txs = []
+        for block in miner.chain:
+            old_mined_txs.extend(block.transactions)
 
-            # new_chain = []
-            # for x in range(0, len(blocks)):
-            #     new_chain.append(Block(0, [], 0, '0'))
-            #     for key in blocks[x]:
-            #         setattr(new_chain[x], key, blocks[x][key])
+        if update_chain_from_peer(miner.peers[peer_with_longest_chain]):
+            new_txs = []
+            for block in miner.chain:
+                new_txs.extend(block.transactions)
+
+            old_unconfirmed_txs = miner.unconfirmed_transactions.copy()
+
+            unconfirmed_txs = []
+            unconfirmed_txs.extend([x for x in old_mined_txs if x not in new_txs])
+            unconfirmed_txs.extend([x for x in old_unconfirmed_txs if x not in new_txs])
+            miner.unconfirmed_transactions = []
+            for tx in unconfirmed_txs:
+                found = False
+                for u_tx in miner.unconfirmed_transactions:
+                    if tx['id_tx'] == u_tx['id_tx']:
+                        found = True
+                if not found:
+                    miner.unconfirmed_transactions.append(tx)
+
+            return True
+
+    return False
 
 
 @app.route('/add_block', methods=['POST'])
@@ -66,14 +122,11 @@ def add_block():
     if block:
         # If new block is accepted, its txs are deleted from unconfirmed transactions.
         block_txs = []
-        x = 0
         for tx in block.transactions:
             block_txs.append(Transaction(
                 id_tx=tx["id_tx"],
                 data=json.dumps(tx["data"])
             ))
-            print("Block's (" + str(block.index) + ") TX_ID " + str(x) + ": " + str(block_txs[x].id_tx))
-            x += 1
 
         for tx in block_txs:
             for tx_unconfirmed in miner.unconfirmed_transactions:
@@ -84,10 +137,30 @@ def add_block():
         return "Not valid block", 401
 
 
+def update_chain_from_peer(peer):
+    headers = {'Content-Type': "application/json"}
+    req = requests.get(peer + "/get_chain", headers=headers)
+    blocks = req.json()['chain']
+    new_chain = []
+    for x in range(0, len(blocks)):
+        new_chain.append(Block(0, [], 0, '0'))
+        for key in blocks[x]:
+            setattr(new_chain[x], key, blocks[x][key])
+
+    if len(new_chain) == 1 or miner.is_valid_chain(new_chain):
+        miner.chain = new_chain
+        return True
+    else:
+        return False
+
+
 @app.route('/mine', methods=['GET'])
 def mine():
-    # consensus()
+
+    consensus()
+
     block = miner.mine()
+
     for peer in miner.peers:
         url = peer + "/add_block"
         headers = {'Content-Type': "application/json"}
@@ -112,12 +185,12 @@ def add_new_transaction():
 
     :return: "Success", 200
     """
-    store_transaction(request.get_json())
 
+    tx = store_transaction(request.get_json())
     for peer in miner.peers:
         url = peer + "/register_transaction"
         headers = {'Content-Type': "application/json"}
-        requests.post(url, data=json.dumps(request.get_json()), headers=headers)
+        requests.post(url, data=str(tx), headers=headers)
 
     return "Success", 200
 
@@ -133,12 +206,12 @@ def register_transaction():
 
 
 def store_transaction(tx_json):
-    # tx = Transaction(json.dumps(tx_json))
     if 'id_tx' in tx_json:
         tx = Transaction(json.dumps(tx_json.get('data')), id_tx=tx_json.get('id_tx'))
     else:
         tx = Transaction(json.dumps(tx_json))
     miner.add_new_transaction(tx)
+    return tx
 
 
 @app.route('/get_pending_transactions', methods=['GET'])
@@ -205,21 +278,7 @@ def register_me():
     if req.json():
         miner.peers.extend(req.json())
 
-    # As there is one peer at least that have created the chain, I'll accept his.
-    # TODO Instead of requesting the chain of the first peer, it can be requested the longest chain or obtain it from
-    #   whatever consensus is implemented.
-    req = requests.get(miner.peers[0] + "/get_chain", headers=headers)
-    blocks = req.json()['chain']
-    new_chain = []
-    for x in range(0, len(blocks)):
-        new_chain.append(Block(0, [], 0, '0'))
-        for key in blocks[x]:
-            setattr(new_chain[x], key, blocks[x][key])
-
-    if len(new_chain) == 1 or miner.is_valid_chain(new_chain):
-        miner.chain = new_chain
-    else:
-        return "Chain NOT valid !!!", 401
+    consensus()
 
     # We'll take its unconfirmed transactions too.
     req = requests.get(miner.peers[0] + "/get_pending_transactions", headers=headers)
