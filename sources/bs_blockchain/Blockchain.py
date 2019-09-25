@@ -1,12 +1,19 @@
-from abc import abstractmethod
 import binascii
 import json
 import time
 import gzip
 import pickle
+import logging
 from threading import Thread
-
 from bs_blockchain.Block import Block
+from abc import abstractmethod
+
+
+logging.basicConfig(filename="blockswarm.log",
+                    level=logging.DEBUG,
+                    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+                    datefmt="%H:%M:%S")
+logger = logging.getLogger("Blockchain")
 
 
 class Blockchain:
@@ -15,6 +22,7 @@ class Blockchain:
         self.unconfirmed_transactions = []  #: Set of transactions wating to be mined.
         self.chain = []  #: List og blocks that conforms the block chain
         self.pow_difficulty = 4  #: Difficulty of PoW
+        logger.info("PoW difficulty has been set to " + str(self.pow_difficulty))
         self.create_genesis_block()
 
     def create_genesis_block(self):
