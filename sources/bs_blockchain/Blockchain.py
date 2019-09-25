@@ -21,7 +21,7 @@ class Blockchain:
     def __init__(self):
         self.unconfirmed_transactions = []  #: Set of transactions wating to be mined.
         self.chain = []  #: List og blocks that conforms the block chain
-        self.pow_difficulty = 4  #: Difficulty of PoW
+        self.pow_difficulty = 2  #: Difficulty of PoW
         logger.info("PoW difficulty has been set to " + str(self.pow_difficulty))
         self.create_genesis_block()
 

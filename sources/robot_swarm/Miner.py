@@ -1,16 +1,17 @@
 import json
-import random
 import socket
 import argparse
-from time import sleep
-
+from typing import List
 import requests
+from gevent.pywsgi import WSGIServer
+from gevent import monkey
 from flask import Flask, request, Response
-
 from bs_blockchain.Block import Block
 from bs_blockchain.Blockchain import Blockchain
 from bs_blockchain.Transaction import Transaction
 
+
+monkey.patch_all(select=False)
 app = Flask(__name__)
 
 
@@ -141,7 +142,7 @@ def update_chain_from_peer(peer):
     headers = {'Content-Type': "application/json"}
     req = requests.get(peer + "/get_chain", headers=headers)
     blocks = req.json()['chain']
-    new_chain = []
+    new_chain: List[Block] = []
     for x in range(0, len(blocks)):
         new_chain.append(Block(0, [], 0, '0'))
         for key in blocks[x]:
@@ -325,7 +326,9 @@ if __name__ == '__main__':
         print("\n" + print_separator)
         print("* My IP address: " + miner.connect_address + " *")
         print(print_separator + "\n")
-        app.run('0.0.0.0', port, threaded=True)
+        # app.run('0.0.0.0', port, threaded=True)
+        http_server = WSGIServer(('', port), app)
+        http_server.serve_forever()
     else:
         print("Port must be between 1024 and 65535.")
 else:
